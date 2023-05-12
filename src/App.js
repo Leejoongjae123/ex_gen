@@ -69,7 +69,7 @@ const App = () => {
           <h1>
             다양한 체험단을 확인해보세요
           </h1>
-        <Space direction="vertical" size="middle" style={{ display: 'flex',margin:"20px" }}>
+        <Space direction="vertical" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center'}}>
           <Space wrap style={{padding:3}}>
             <Button type="primary">
               서울
@@ -84,7 +84,7 @@ const App = () => {
               부산
             </Button>
           </Space>
-          <Space wrap style={{padding:5}}>
+          <Space wrap style={{padding:5,display:'flex',justifyContent:'center'}}>
             <Input placeholder="검색어를 입력하세요" />
             <Button type="primary" icon={<SearchOutlined />}>
               검색
@@ -95,27 +95,27 @@ const App = () => {
         
         
         
-        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+        <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
           <Row gutter={16}>
-            <Col md={{span: 24}} lg={{span: 6}}>
+            <Col xs={{span: 24}} lg={{span: 6}}>
               <Card title="자장면" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture1} style={{objectFit:'cover',borderRadius:"100%"}}/>
                 <p>맛있어요 너무 좋아요</p>
               </Card>
             </Col>
-            <Col md={{span: 24}} lg={{span: 6}}>
+            <Col xs={{span: 24}} lg={{span: 6}}>
               <Card title="스파게티" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture2} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
               </Card>
             </Col>
-            <Col md={{span: 24}} lg={{span: 6}}>
+            <Col xs={{span: 24}} lg={{span: 6}}>
               <Card title="누들" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture3} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
               </Card>
             </Col>
-            <Col md={{span: 24}} lg={{span: 6}}>
+            <Col xs={{span: 24}} lg={{span: 6}}>
               <Card title="족발" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture4} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
