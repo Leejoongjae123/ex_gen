@@ -97,26 +97,26 @@ const App = () => {
         
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           <Row gutter={16}>
-            <Col span={6}>
-              <Card title="자장면" bordered={false} style={{border:"1px solid #eee",borderRadius:"10%"}}>
+            <Col xs={{span: 12}} lg={{span: 24}}>
+              <Card title="자장면" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture1} style={{objectFit:'cover',borderRadius:"100%"}}/>
                 <p>맛있어요 너무 좋아요</p>
               </Card>
             </Col>
-            <Col span={6}>
-              <Card title="스파게티" bordered={false} style={{border:"1px solid #eee",borderRadius:"10%"}}>
+            <Col xs={{span: 12}} lg={{span: 24}}>
+              <Card title="스파게티" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture2} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
               </Card>
             </Col>
-            <Col span={6}>
-              <Card title="누들" bordered={false} style={{border:"1px solid #eee",borderRadius:"10%"}}>
+            <Col xs={{span: 12}} lg={{span: 24}}>
+              <Card title="누들" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture3} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
               </Card>
             </Col>
-            <Col span={6}>
-              <Card title="족발" bordered={false} style={{border:"1px solid #eee",borderRadius:"10%"}}>
+            <Col xs={{span: 12}} lg={{span: 24}}>
+              <Card title="족발" bordered={false} style={{border:"1px solid #eee"}}>
                 <Image  width={200} height={200} src={picture4} style={{objectFit:'cover',borderRadius:"100%"}} />
                 <p>짜장면</p>
               </Card>
