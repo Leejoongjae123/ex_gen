@@ -98,27 +98,27 @@ const App = () => {
         <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
           <Row gutter={16}>
             <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="자장면" bordered={false} style={{border:"1px solid #eee"}}>
+              <Card title="자장면" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
                 <Image  width={200} height={200} src={picture1} style={{objectFit:'cover',borderRadius:"100%"}}/>
-                <p>맛있어요 너무 좋아요</p>
+                <p>맛있어요 한번 잡솨봐</p>
               </Card>
             </Col>
             <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="스파게티" bordered={false} style={{border:"1px solid #eee"}}>
+              <Card title="샐러드" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
                 <Image  width={200} height={200} src={picture2} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>짜장면</p>
+                <p>너무 싱싱해요 한번 잡솨봐</p>
               </Card>
             </Col>
             <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="누들" bordered={false} style={{border:"1px solid #eee"}}>
+              <Card title="스파게티" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
                 <Image  width={200} height={200} src={picture3} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>짜장면</p>
+                <p>새우가 탱글해요 한번 잡솨봐</p>
               </Card>
             </Col>
             <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="족발" bordered={false} style={{border:"1px solid #eee"}}>
+              <Card title="소갈비" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
                 <Image  width={200} height={200} src={picture4} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>짜장면</p>
+                <p>아주 기름져요 한번 잡솨봐</p>
               </Card>
             </Col>
           </Row>
