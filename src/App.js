@@ -63,9 +63,9 @@ const App = () => {
 
 
 
-      <Content className="site-layout" style={{ padding: '50px',height:"100%"}}>
+      <Content className="site-layout" style={{ padding: '5%',height:"100%"}}>
         
-        <div style={{padding: 24, minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
+        <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
           <h1>
             다양한 체험단을 확인해보세요
           </h1>
