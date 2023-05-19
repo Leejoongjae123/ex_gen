@@ -209,14 +209,14 @@ const App = () => {
 
 
 
-      <Content className="site-layout" style={{ padding: '5%',height:"100%"}}>
+      <Content className="site-layout" style={{ padding: '3%',height:"100%"}}>
         
         <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
-          <h1>
+          <h2>
             다양한 체험단을 확인해보세요
-          </h1>
+          </h2>
         <Space direction="vertical" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center'}}>
-          <Space wrap style={{padding:3}}>
+          <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
             <Button type="primary">
               서울
             </Button>
@@ -239,7 +239,7 @@ const App = () => {
               강원도/제주
             </Button>
           </Space>
-          <Space wrap style={{padding:3}}>
+          <Space wrap style={{padding:3,display:'flex',justifyContent:'center'}}>
             <Button type="primary" danger>
               강남맛집
             </Button>
@@ -331,10 +331,10 @@ const App = () => {
                 return(
                 <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
                   <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
-                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
+                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%",minHeight:"100%",minWidth:"100%",maxHeight:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <a target='_blank' href={elem['url']}><Image preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
+                      <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
