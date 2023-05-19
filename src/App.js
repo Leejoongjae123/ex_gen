@@ -8,6 +8,7 @@ import picture3 from './pictures/picture3.jpg'
 import picture4 from './pictures/picture4.png'
 import picture5 from './pictures/picture5.jpg'
 import picture6 from './pictures/picture6.jpg'
+import logo2 from './pictures/logo2.png'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Space, Tooltip,Spin,Alert,Select,Badge } from 'antd';
@@ -99,9 +100,9 @@ const App = () => {
   console.log(keyword)
   return (
     <Layout style={{backgroundColor:"#eee"}}>
-      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 3%"}}>
-        <Image  preview={false} width={50} height={50} src={logo} style={{objectFit:'cover',borderRadius:"100%",justifyContent:"left",alignItems:'center'}}/>
-        <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div>
+      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 0"}}>
+        <Image  preview={false} width={300} height={50} src={logo2} style={{objectFit:'cover',justifyContent:"left",alignItems:'center'}}/>
+        {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
         
       </Header>
 
