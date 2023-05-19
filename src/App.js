@@ -44,6 +44,7 @@ const App = () => {
   const [keyword,setKeyword]=useState("")
   const [originArticles,setOriginArticles]=useState([])
   const [changedData,setChangedData]=useState([])
+  const [filterStatus,setFilterStatus]=useState("이름순")
 
   const getArticles=async ()=>{  
     const dbRef = ref(getDatabase());
@@ -96,6 +97,21 @@ const App = () => {
       getArticles()
     }
   };
+
+  const sortedData = ()=>{
+    let newArticles=originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    setArticles(newArticles)
+    console.log("정렬완료")
+  }
+  
+  
+  
+
 
   console.log(keyword)
   return (
@@ -171,6 +187,26 @@ const App = () => {
                 value: '기한 많은순',
                 label: '기한 많은순',
               },
+              {
+                value: '기한 적은순',
+                label: '기한 적은순',
+              },
+              {
+                value: '지원 많은순',
+                label: '지원 많은순',
+              },
+              {
+                value: '지원 적은순',
+                label: '지원 적은순',
+              },
+              {
+                value: '모집 많은순',
+                label: '모집 많은순',
+              },
+              {
+                value: '모집 적은순',
+                label: '모집 적은순',
+              },
             ]}
           />
         </Space>
@@ -190,11 +226,11 @@ const App = () => {
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <a target='_blank' href={elem['url']}><Image preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
+                      <a target='_blank' href={elem['url']}><Image preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
-                      {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[0]['platform']}_${articles[0]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
+                      {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
                       {isLoading&&
                       <>
                       <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{titleFront}</p>
