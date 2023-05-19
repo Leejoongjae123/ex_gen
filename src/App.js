@@ -184,7 +184,7 @@ const App = () => {
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <Image  width={300} height={300} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/>
+                      <a target='_blank' href={elem['url']}><Image preview={false} width={300} height={300} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
@@ -211,7 +211,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={500} showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={1000} showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
