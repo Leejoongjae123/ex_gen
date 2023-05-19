@@ -10,7 +10,7 @@ import picture5 from './pictures/picture5.jpg'
 import picture6 from './pictures/picture6.jpg'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip,Spin,Alert } from 'antd';
+import { Button, Space, Tooltip,Spin,Alert,Select } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
@@ -19,6 +19,7 @@ import axios from 'axios';
 import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database} from './firebase';
+
 
 const { Header, Content, Footer } = Layout;
 
@@ -124,6 +125,25 @@ const App = () => {
 
         
         
+        <Space align='end' style={{display:'flex',justifyContent:"flex-end"}}>
+          <Select
+            defaultValue="이름순"
+            style={{
+              width: 120,
+            }}
+            onChange={(e)=>{console.log(e)}}
+            options={[
+              {
+                value: '이름순',
+                label: '이름순',
+              },
+              {
+                value: '마감일순',
+                label: '마감일순',
+              },
+            ]}
+          />
+        </Space>
         
         <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
           <Row gutter={16}>
@@ -131,15 +151,15 @@ const App = () => {
               articles.map((elem,index)=>{
                 return(
                 <Col key={index} xs={{span: 24}} lg={{span: 6}}>
-                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>  
+                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/>
+                      <Image  width={300} height={300} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
                       {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[0]['platform']}_${articles[0]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
-                      {isLoading&&<p style={{marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
+                      {isLoading&&<p style={{fontSize:"1.2rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
                   </Card>

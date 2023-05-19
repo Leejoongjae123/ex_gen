@@ -14,8 +14,16 @@ code {
 
 img{
   object-fit: cover;
+  overflow:auto;
 }
 
 .select{
   
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+
+*{
+  font-family: 'Noto Sans KR', sans-serif;
 }
