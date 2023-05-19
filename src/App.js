@@ -331,7 +331,7 @@ const App = () => {
                 return(
                 <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
                   <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
-                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%",minHeight:"100%",minWidth:"100%",maxHeight:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
+                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
                       <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
@@ -341,8 +341,11 @@ const App = () => {
                       {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
                       {isLoading&&
                       <>
-                      <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{titleFront}</p>
-                      <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{titleRr}</p>
+                      
+                        <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{titleFront}</p>
+                        <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{titleRr}</p>
+                      
+                      
                       </>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
