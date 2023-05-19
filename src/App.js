@@ -109,6 +109,75 @@ const App = () => {
     console.log("정렬완료")
   }
   
+  const sortApplyUp=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+
+  const sortApplyDown=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+  const sortDemandUp=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+
+  const sortDemandDown=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+
+  const sortDdayUp=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+
+  const sortDdayDown=()=>{
+    let sortedData = originArticles.sort((a, b) => {
+      // 기준이 되는 속성 값을 비교하여 정렬
+      if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+      if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+      return 0; // a.name과 b.name이 같으면 순서 유지
+    });
+    let newData=sortedData.slice((page-1)*20,(page)*20)
+    setArticles(newData)
+  }
+
+  const sortTitle=()=>{
+    getArticles();
+  }
+  
   
   
 
@@ -136,7 +205,7 @@ const App = () => {
           <h3 style={contentStyle}>4</h3>
         </div>
       </Carousel>
-
+      {/* <Button onClick={sortTest}>111</Button> */}
 
 
 
@@ -152,13 +221,36 @@ const App = () => {
               서울
             </Button>
             <Button type="primary">
-              경기
+              경기/인천
             </Button>
             <Button type="primary">
-              인천
+              대전/충청
             </Button>
             <Button type="primary">
-              부산
+              대구/경북
+            </Button>
+            <Button type="primary">
+              부산/경남
+            </Button>
+            <Button type="primary">
+              광주/전라
+            </Button>
+            <Button type="primary">
+              강원도/제주
+            </Button>
+          </Space>
+          <Space wrap style={{padding:3}}>
+            <Button type="primary" danger>
+              강남맛집
+            </Button>
+            <Button type="primary" danger>
+              놀러와체험단
+            </Button>
+            <Button type="primary" danger>
+              디너의여왕
+            </Button>
+            <Button type="primary" danger>
+              데일리뷰
             </Button>
           </Space>
           <Space wrap style={{padding:5,display:'flex',justifyContent:'center'}}>
@@ -173,15 +265,31 @@ const App = () => {
         
         <Space align='end' style={{display:'flex',justifyContent:"flex-end"}}>
           <Select
-            defaultValue="이름순"
+            defaultValue="기본"
             style={{
               width: 120,
             }}
-            onChange={(e)=>{console.log(e)}}
+            onChange={(e)=>{
+              if(e==="지원 적은순"){
+                sortApplyUp();
+              }else if(e==="지원 많은순"){
+                sortApplyDown();
+              }else if(e==="모집 적은순"){
+                sortDemandUp();
+              }else if(e==="모집 많은순"){
+                sortDemandDown();
+              }else if(e==="기한 적은순"){
+                sortDdayUp();
+              }else if(e==="기한 많은순"){
+                sortDdayDown();
+              }else{
+                sortTitle();
+              }
+            }}
             options={[
               {
-                value: '이름순',
-                label: '이름순',
+                value: '기본',
+                label: '기본',
               },
               {
                 value: '기한 많은순',
