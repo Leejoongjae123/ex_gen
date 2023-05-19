@@ -180,9 +180,8 @@ const App = () => {
               articles.map((elem,index)=>{
                 return(
                 <Col key={index} xs={{span: 24}} lg={{span: 6}}>
-                  <Badge.Ribbon text={`${elem['dday']}일 남음`} count={10} size="default">
-                  
-                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}} headStyle={{fontSize:"1.5rem"}}>  
+                  <Badge.Ribbon text={`${elem['dday']}일 남음`} count={10} size="default" style={{marginRight:"5%"}}>
+                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
                       <Image  width={300} height={300} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/>
