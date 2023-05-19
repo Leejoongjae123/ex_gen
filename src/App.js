@@ -179,7 +179,7 @@ const App = () => {
             {
               articles.map((elem,index)=>{
                 return(
-                <Col key={index} xs={{span: 24}} lg={{span: 6}} style={{padding:"1%"}}>
+                <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
                   <Badge.Ribbon text={`${elem['dday']}일 남음`} count={10} size="default" style={{}}>
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
