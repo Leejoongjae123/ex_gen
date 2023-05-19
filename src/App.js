@@ -180,7 +180,7 @@ const App = () => {
               articles.map((elem,index)=>{
                 return(
                 <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
-                  <Badge.Ribbon text={`${elem['dday']}일 남음`} count={10} size="default" style={{}}>
+                  <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
@@ -192,8 +192,8 @@ const App = () => {
                       {isLoading&&<p style={{fontSize:"1.2rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
-                    <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
-                    <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
+                    <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"80%",fontSize:"1rem"}} />
+                    <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"80%",fontSize:"1rem"}}/>
                   </Card>
                   </Badge.Ribbon>
                   
