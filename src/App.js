@@ -40,14 +40,18 @@ const App = () => {
   const [articles,setArticles]=useState([]);
   const [isLoading,setIsLoading]=useState(false);
   const [page,setPage]=useState(1);
-  
+  const [keyword,setKeyword]=useState("")
+  const [originArticles,setOriginArticles]=useState([])
+  const [changedData,setChangedData]=useState([])
+
   const getArticles=async ()=>{  
     const dbRef = ref(getDatabase());
     get(child(dbRef, 'data')).then((snapshot) => {
       if (snapshot.exists()) {
         let data=snapshot.val().slice((page-1)*20,(page)*20)
-        console.log(data)
+        let originData=snapshot.val()
         setArticles(data)
+        setOriginArticles(originData)
         setIsLoading(true)
       } else {
         console.log("No data available");
@@ -60,17 +64,42 @@ const App = () => {
   useEffect(()=>{
     getArticles()
   },[])
-  useEffect(()=>{
-    console.log(page)
-    getArticles()
+  useEffect(()=>{ 
+    if (keyword.length){
+      console.log("CASE1")
+      setArticles(changedData.slice((page-1)*20,(page)*20))
+    } else{
+      console.log("CASE2")
+      setArticles(originArticles.slice((page-1)*20,(page)*20))
+    }
   },[page])
-  
 
+
+  
+  const handleInputChange = (event) => {
+    setKeyword(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const filteredData = originArticles.filter((item) =>
+      item['title'].includes(keyword)
+    );
+    // console.log(filteredData); // 필터링된 결과를 콘솔에 출력하거나 다른 작업을 수행합니다.
+    setChangedData(filteredData)
+
+    const partialFilteredData=filteredData.slice((page-1)*20,(page)*20)
+    console.log("filteredData:",filteredData)
+
+    setArticles(partialFilteredData)
+    if (keyword.length==0){
+      getArticles()
+    }
+  };
+
+  console.log(keyword)
   return (
     <Layout style={{backgroundColor:"#eee"}}>
       <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 3%"}}>
-      
-      
         <Image  preview={false} width={50} height={50} src={logo} style={{objectFit:'cover',borderRadius:"100%",justifyContent:"left",alignItems:'center'}}/>
         <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div>
         
@@ -116,8 +145,8 @@ const App = () => {
             </Button>
           </Space>
           <Space wrap style={{padding:5,display:'flex',justifyContent:'center'}}>
-            <Input placeholder="검색어를 입력하세요" />
-            <Button type="primary" icon={<SearchOutlined />}>
+            <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} />
+            <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
               검색
             </Button>
           </Space>
@@ -138,8 +167,8 @@ const App = () => {
                 label: '이름순',
               },
               {
-                value: '마감일순',
-                label: '마감일순',
+                value: '기한 많은순',
+                label: '기한 많은순',
               },
             ]}
           />
