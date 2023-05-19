@@ -178,6 +178,11 @@ const App = () => {
           <Row gutter={16}>
             {
               articles.map((elem,index)=>{
+                
+                let partition=articles[index]['title'].indexOf(']');
+                let titleFront=articles[index]['title'].slice(0,partition+1);
+                let titleRr=articles[index]['title'].slice(partition+1,partition.length);
+                
                 return(
                 <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
                   <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
@@ -189,12 +194,16 @@ const App = () => {
                       <Spin tip="Loading" size="large"></Spin>
                       }
                       {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[0]['platform']}_${articles[0]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
-                      {isLoading&&<p style={{fontSize:"0.8rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
+                      {isLoading&&
+                      <>
+                      <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{titleFront}</p>
+                      <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{titleRr}</p>
+                      </>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
                     <Space style={{display:"flex",justifyContent:"center"}}>
-                      <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"10%"}} />
-                      <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"10%"}}/>
+                      <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
+                      <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
                     </Space>
                     
                   </Card>
@@ -214,7 +223,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={1000} showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={3000} showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
