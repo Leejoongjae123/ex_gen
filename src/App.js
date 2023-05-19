@@ -10,7 +10,7 @@ import picture5 from './pictures/picture5.jpg'
 import picture6 from './pictures/picture6.jpg'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip,Spin,Alert,Select } from 'antd';
+import { Button, Space, Tooltip,Spin,Alert,Select,Badge } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
@@ -180,6 +180,8 @@ const App = () => {
               articles.map((elem,index)=>{
                 return(
                 <Col key={index} xs={{span: 24}} lg={{span: 6}}>
+                  <Badge.Ribbon text={`${elem['dday']}일 남음`} count={10} size="default">
+                  
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
@@ -191,7 +193,11 @@ const App = () => {
                       {isLoading&&<p style={{fontSize:"1.2rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
+                    <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
+                    <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
                   </Card>
+                  </Badge.Ribbon>
+                  
                 </Col>
                 )
                 
