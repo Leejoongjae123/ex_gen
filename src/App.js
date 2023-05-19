@@ -10,11 +10,18 @@ import picture5 from './pictures/picture5.jpg'
 import picture6 from './pictures/picture6.jpg'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip } from 'antd';
+import { Button, Space, Tooltip,Spin,Alert } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
+import { useEffect,useState } from 'react';
+import axios from 'axios';
+import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
+import { getDatabase, ref, onValue,get,child} from "firebase/database";
+import {dbService, database} from './firebase';
+
 const { Header, Content, Footer } = Layout;
+
 
 const contentStyle = {
   height: '160px',
@@ -28,6 +35,35 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const [articles,setArticles]=useState([]);
+  const [isLoading,setIsLoading]=useState(false);
+  const [page,setPage]=useState(1);
+  
+  const getArticles=async ()=>{  
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, 'data')).then((snapshot) => {
+      if (snapshot.exists()) {
+        let data=snapshot.val().slice((page-1)*20,(page)*20)
+        console.log(data)
+        setArticles(data)
+        setIsLoading(true)
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  useEffect(()=>{
+    getArticles()
+  },[])
+  useEffect(()=>{
+    console.log(page)
+    getArticles()
+  },[page])
+  
 
   return (
     <Layout style={{backgroundColor:"#eee"}}>
@@ -91,30 +127,27 @@ const App = () => {
         
         <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
           <Row gutter={16}>
-            <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="자장면" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
-                <Image  width={200} height={200} src={picture1} style={{objectFit:'cover',borderRadius:"100%"}}/>
-                <p>맛있어요 한번 잡솨봐</p>
-              </Card>
-            </Col>
-            <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="샐러드" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
-                <Image  width={200} height={200} src={picture2} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>너무 싱싱해요 한번 잡솨봐</p>
-              </Card>
-            </Col>
-            <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="스파게티" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
-                <Image  width={200} height={200} src={picture3} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>새우가 탱글해요 한번 잡솨봐</p>
-              </Card>
-            </Col>
-            <Col xs={{span: 24}} lg={{span: 6}}>
-              <Card title="소갈비" bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>
-                <Image  width={200} height={200} src={picture4} style={{objectFit:'cover',borderRadius:"100%"}} />
-                <p>아주 기름져요 한번 잡솨봐</p>
-              </Card>
-            </Col>
+            {
+              articles.map((elem,index)=>{
+                return(
+                <Col key={index} xs={{span: 24}} lg={{span: 6}}>
+                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{border:"1px solid #eee",margin:"5% 0 5% 0"}}>  
+                      {isLoading
+                      ?
+                      <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['platform']}_${articles[index]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/>
+                      :
+                      <Spin tip="Loading" size="large"></Spin>
+                      }
+                      {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[0]['platform']}_${articles[0]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
+                      {isLoading&&<p style={{marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
+                      }       
+                    {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
+                  </Card>
+                </Col>
+                )
+                
+              })
+            }
           </Row>
         </Space>
         
@@ -123,7 +156,10 @@ const App = () => {
 
 
       </Content>
-      <Pagination style={{ textAlign: 'center' }} defaultCurrent={1} total={50} />
+      <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={500} showSizeChanger={false}/>
+      </Space>
+      
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
 
     </Layout>
