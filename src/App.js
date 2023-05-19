@@ -192,8 +192,11 @@ const App = () => {
                       {isLoading&&<p style={{fontSize:"1.2rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
-                    <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"80%",fontSize:"1rem"}} />
-                    <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"80%",fontSize:"1rem"}}/>
+                    <Space style={{display:"flex",justifyContent:"center"}}>
+                      <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"10%"}} />
+                      <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"10%"}}/>
+                    </Space>
+                    
                   </Card>
                   </Badge.Ribbon>
                   
