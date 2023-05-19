@@ -189,7 +189,7 @@ const App = () => {
                       <Spin tip="Loading" size="large"></Spin>
                       }
                       {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[0]['platform']}_${articles[0]['title']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
-                      {isLoading&&<p style={{fontSize:"1.2rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
+                      {isLoading&&<p style={{fontSize:"0.8rem", marginTop:"15%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{articles[index]['title']}</p>
                       }       
                     {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
                     <Space style={{display:"flex",justifyContent:"center"}}>
