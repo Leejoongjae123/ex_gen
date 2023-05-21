@@ -27,3 +27,17 @@ img{
 *{
   font-family: 'Noto Sans KR', sans-serif;
 }
+
+@media screen and (min-width: 768px) {
+  .searchBar {
+    flex-direction: row;
+  }
+}
+
+/* 모바일 화면에 대한 스타일 */
+
+@media screen and (max-width: 767px) {
+  .searchBar {
+    flex-direction: column;
+  }
+}
