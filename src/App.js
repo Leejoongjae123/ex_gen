@@ -11,7 +11,7 @@ import picture6 from './pictures/picture6.jpg'
 import logo2 from './pictures/logo2.png'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip,Spin,Alert,Select,Badge } from 'antd';
+import { Button, Space, Tooltip,Spin,Alert,Select,Badge,Dropdown, message,Radio } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
@@ -20,7 +20,7 @@ import axios from 'axios';
 import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database} from './firebase';
-
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
 
@@ -46,6 +46,7 @@ const App = () => {
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
 
+  
   const getArticles=async ()=>{  
     const dbRef = ref(getDatabase());
     get(child(dbRef, 'data')).then((snapshot) => {
@@ -216,50 +217,46 @@ const App = () => {
             다양한 체험단을 확인해보세요
           </h2>
         <Space direction="vertical" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center'}}>
-          <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
-            <Button type="primary">
-              서울
-            </Button>
-            <Button type="primary">
-              경기/인천
-            </Button>
-            <Button type="primary">
-              대전/충청
-            </Button>
-            <Button type="primary">
-              대구/경북
-            </Button>
-            <Button type="primary">
-              부산/경남
-            </Button>
-            <Button type="primary">
-              광주/전라
-            </Button>
-            <Button type="primary">
-              강원도/제주
-            </Button>
-          </Space>
-          <Space wrap style={{padding:3,display:'flex',justifyContent:'center'}}>
-            <Button type="primary" danger>
-              강남맛집
-            </Button>
-            <Button type="primary" danger>
-              놀러와체험단
-            </Button>
-            <Button type="primary" danger>
-              디너의여왕
-            </Button>
-            <Button type="primary" danger>
-              데일리뷰
-            </Button>
-          </Space>
-          <Space wrap style={{padding:5,display:'flex',justifyContent:'center'}}>
-            <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} />
+          <Radio.Group defaultValue="a" buttonStyle="solid">
+            <Radio.Button value="a">서울</Radio.Button>
+            <Radio.Button value="b">경기/인천</Radio.Button>
+            <Radio.Button value="c">대전/충청</Radio.Button>
+            <Radio.Button value="d">대구/경북</Radio.Button>
+            <Radio.Button value="e">부산/경남</Radio.Button>
+            <Radio.Button value="f">광주/전라</Radio.Button>
+            <Radio.Button value="g">강원도/제주</Radio.Button>
+          </Radio.Group>
+          <Radio.Group defaultValue="a" buttonStyle="solid">
+            <Radio.Button value="a">강남맛집</Radio.Button>
+            <Radio.Button value="b">놀러와체험단</Radio.Button>
+            <Radio.Button value="c">디너의여왕</Radio.Button>
+            <Radio.Button value="d">데일리뷰</Radio.Button>
+          </Radio.Group>
+          <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} style={{width:"30%",textAlign:"center"}}/>
             <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
               검색
             </Button>
-          </Space>
         </Space>
+
+          
+        
+        
+          <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
+            <Button type="primary">
+              #카페
+            </Button>
+            <Button type="primary">
+              #곱창
+            </Button>
+            <Button type="primary">
+              #뷰티
+            </Button>
+            <Button type="primary">
+              #헤어
+            </Button>
+          </Space>
+        
+        
 
         
         
@@ -334,7 +331,7 @@ const App = () => {
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
+                      <a target='_blank' href={elem['url']}><Image width={200} height={200} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
@@ -371,7 +368,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={3000} showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={parseInt(originArticles.length/2)} showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
