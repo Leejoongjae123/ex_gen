@@ -261,7 +261,7 @@ const App = () => {
               },
             ]}
           />     
-          <Select
+          <Select 
             defaultValue="전체"
             style={{
               width:"100%",
@@ -336,6 +336,7 @@ const App = () => {
             defaultValue="기본"
             style={{
               width: 120,
+              margin:"10% 0 10% 0"
             }}
             onChange={(e)=>{
               if(e==="지원 적은순"){
@@ -397,22 +398,27 @@ const App = () => {
                 let titleRr=articles[index]['title'].slice(partition+1,partition.length);
                 
                 return(
-                <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%"}}>
+                <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%",alignItems:'center'}}>
                   <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
                   <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                       {isLoading
                       ?
-                      <a target='_blank' href={elem['url']}><Image width={200} height={200} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
+                      <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
                       :
                       <Spin tip="Loading" size="large"></Spin>
                       }
                       {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
                       {isLoading&&
                       <>
-                      
-                        <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{titleFront}</p>
-                        <p style={{fontSize:"0.8rem", marginTop:"5%",marginBottom:"5%",overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{titleRr}</p>
-                      
+                        <Space style={{display:"flex",flexDirection:"column"}}>
+                          <Space style={{flex:"1fr"}}>
+                            <p>{titleFront}</p>
+                          </Space>
+                          <Space style={{width:"1fr"}}>
+                            <p>{titleRr}</p>
+                          </Space>
+                          
+                        </Space>
                       
                       </>
                       }       
