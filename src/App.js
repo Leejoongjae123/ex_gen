@@ -11,7 +11,7 @@ import picture6 from './pictures/picture6.jpg'
 import logo2 from './pictures/logo2.png'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip,Spin,Alert,Select,Badge,Dropdown, message,Radio } from 'antd';
+import { Button, Space, Tooltip,Spin,Alert,Select,Badge,Dropdown, message } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
@@ -179,7 +179,13 @@ const App = () => {
     getArticles();
   }
   
+  const handleChangeRegion = (value) => {
+    console.log(`selected ${value}`);
+  };
   
+  const handleChangePlatform = (value) => {
+    console.log(`selected ${value}`);
+  };
   
 
 
@@ -216,26 +222,81 @@ const App = () => {
           <h2>
             다양한 체험단을 확인해보세요
           </h2>
-        <Space direction="vertical" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center'}}>
-          <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">서울</Radio.Button>
-            <Radio.Button value="b">경기/인천</Radio.Button>
-            <Radio.Button value="c">대전/충청</Radio.Button>
-            <Radio.Button value="d">대구/경북</Radio.Button>
-            <Radio.Button value="e">부산/경남</Radio.Button>
-            <Radio.Button value="f">광주/전라</Radio.Button>
-            <Radio.Button value="g">강원도/제주</Radio.Button>
-          </Radio.Group>
-          <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">강남맛집</Radio.Button>
-            <Radio.Button value="b">놀러와체험단</Radio.Button>
-            <Radio.Button value="c">디너의여왕</Radio.Button>
-            <Radio.Button value="d">데일리뷰</Radio.Button>
-          </Radio.Group>
-          <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} style={{width:"30%",textAlign:"center"}}/>
-            <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
-              검색
-            </Button>
+        <Space direction="horizontal" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center'}}>
+        <Select
+          defaultValue="전체"
+          style={{
+            flex:"1",
+          }}
+          onChange={handleChangeRegion}
+          options={[
+            {
+              value: '전체',
+              label: '전체',
+            },
+            {
+              value: '서울',
+              label: '서울',
+            },
+            {
+              value: '경기/인천',
+              label: '경기/인천',
+            },
+            {
+              value: '대전/충청',
+              label: '대전/충청',
+            },
+            {
+              value: '대구/경북',
+              label: '대구/경북',
+            },
+            {
+              value: '부산/경남',
+              label: '부산/경남',
+            },
+            {
+              value: '광주/전라',
+              label: '광주/전라',
+            },
+            {
+              value: '기타',
+              label: '기타',
+            },
+          ]}
+        />     
+        <Select
+          defaultValue="전체"
+          style={{
+            width: "100%",
+          }}
+          onChange={handleChangePlatform}
+          options={[
+            {
+              value: '전체',
+              label: '전체',
+            },
+            {
+              value: '강남맛집',
+              label: '강남맛집',
+            },
+            {
+              value: '놀러와체험단',
+              label: '놀러와체험단',
+            },
+            {
+              value: '디너의여왕',
+              label: '디너의여왕',
+            },
+            {
+              value: '데일리뷰',
+              label: '데일리뷰',
+            },
+          ]}
+        />       
+        <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
+        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          검색
+        </Button>
         </Space>
 
           
@@ -246,13 +307,22 @@ const App = () => {
               #카페
             </Button>
             <Button type="primary">
-              #곱창
+              #삼겹살
             </Button>
             <Button type="primary">
               #뷰티
             </Button>
             <Button type="primary">
               #헤어
+            </Button>
+            <Button type="primary">
+              #분식
+            </Button>
+            <Button type="primary">
+              #테니스
+            </Button>
+            <Button type="primary">
+              #골프
             </Button>
           </Space>
         
