@@ -224,7 +224,7 @@ const App = () => {
           </h2>
         <Space className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center'}}>
           <Space direction='horizontal'>
-            <div>지역</div>
+            <div style={{display:"flex"}}>지역</div>
             <Select
               className='optionRegion'
               defaultValue="전체"
@@ -266,7 +266,7 @@ const App = () => {
             />     
             </Space>
           <Space direction='horizontal'>
-          <div>플랫폼</div>
+          <div>출처</div>
           <Select 
             className='optionPlatform'
             defaultValue="전체"

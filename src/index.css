@@ -44,9 +44,9 @@ img{
     flex-direction: column;
   }
   .optionRegion{
-    width:150%;
+    width:120px;
   }
   .optionPlatform{
-    width:150%;
+    width:120px;
   }
 }
