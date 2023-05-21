@@ -223,49 +223,53 @@ const App = () => {
             다양한 체험단을 확인해보세요
           </h2>
         <Space className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center'}}>
-          <Select
-            defaultValue="전체"
-            onChange={handleChangeRegion}
-            options={[
-              {
-                value: '전체',
-                label: '전체',
-              },
-              {
-                value: '서울',
-                label: '서울',
-              },
-              {
-                value: '경기/인천',
-                label: '경기/인천',
-              },
-              {
-                value: '대전/충청',
-                label: '대전/충청',
-              },
-              {
-                value: '대구/경북',
-                label: '대구/경북',
-              },
-              {
-                value: '부산/경남',
-                label: '부산/경남',
-              },
-              {
-                value: '광주/전라',
-                label: '광주/전라',
-              },
-              {
-                value: '기타',
-                label: '기타',
-              },
-            ]}
-          />     
+          <Space direction='horizontal'>
+            <div>지역</div>
+            <Select
+              className='optionRegion'
+              defaultValue="전체"
+              onChange={handleChangeRegion}
+              options={[
+                {
+                  value: '전체',
+                  label: '전체',
+                },
+                {
+                  value: '서울',
+                  label: '서울',
+                },
+                {
+                  value: '경기/인천',
+                  label: '경기/인천',
+                },
+                {
+                  value: '대전/충청',
+                  label: '대전/충청',
+                },
+                {
+                  value: '대구/경북',
+                  label: '대구/경북',
+                },
+                {
+                  value: '부산/경남',
+                  label: '부산/경남',
+                },
+                {
+                  value: '광주/전라',
+                  label: '광주/전라',
+                },
+                {
+                  value: '기타',
+                  label: '기타',
+                },
+              ]}
+            />     
+            </Space>
+          <Space direction='horizontal'>
+          <div>플랫폼</div>
           <Select 
+            className='optionPlatform'
             defaultValue="전체"
-            style={{
-              width:"100%",
-            }}
             onChange={handleChangePlatform}
             options={[
               {
@@ -290,6 +294,7 @@ const App = () => {
               },
             ]}
           />
+          </Space>
           <Space>
             <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
             <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>

@@ -43,8 +43,10 @@ img{
   .searchBar {
     flex-direction: column;
   }
-  .selectOption{
+  .optionRegion{
     width:150%;
-    
+  }
+  .optionPlatform{
+    width:150%;
   }
 }
