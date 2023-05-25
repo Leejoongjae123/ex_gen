@@ -482,7 +482,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} current={page} defaultCurrent={page} total={parseInt(changedData.length/2)} showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={keyword?parseInt(changedData.length/2):parseInt(originArticles.length/2)}  showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
