@@ -85,18 +85,34 @@ const App = () => {
   };
 
   const handleSearch = () => {
-    let filteredData = originArticles.filter((item) =>
-      item['title'].includes(keyword)
-    );
-
-    if (source!=="전체"){
-      // console.log("아닌데?")
-      filteredData = filteredData.filter((item) =>
-      item['platform'].includes(source)
-    );
-
-    }
     
+    // let filteredData = originArticles.filter((item) =>
+    //   item['title'].includes(keyword)
+    // );
+
+    let filteredData = originArticles.filter((elem) => {
+      if (source=="전체"){
+        const { title } = elem;
+        // console.log(title,platform)
+        return title.includes(keyword);
+      } else{
+        const { title, platform } = elem;
+        // console.log(title,platform)
+        return title.includes(keyword) && platform.includes(source);
+      }
+      
+    });
+
+    console.log("filteredData:",filteredData)
+    // if (source!=="전체"){
+    //   console.log("아닌데?")
+    //   filteredData = filteredData.filter((item) =>
+    //   item['platform'].includes(source)
+    // );
+
+    // }
+    
+    // console.log(source)
     
     // console.log(filteredData); // 필터링된 결과를 콘솔에 출력하거나 다른 작업을 수행합니다.
     setChangedData(filteredData)
@@ -105,7 +121,7 @@ const App = () => {
     console.log("filteredData:",filteredData)
 
     setArticles(partialFilteredData)
-    if (keyword.length==0){
+    if (keyword.length==0 && source=="전체"){
       getArticles()
     }
   };
@@ -482,7 +498,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={keyword?parseInt(changedData.length/2):parseInt(originArticles.length/2)}  showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={changedData.length!=0?parseInt(changedData.length/2):parseInt(originArticles.length/2)}  showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
