@@ -45,6 +45,7 @@ const App = () => {
   const [originArticles,setOriginArticles]=useState([])
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
+  const [source,setSource]=useState("전체")
 
   
   const getArticles=async ()=>{  
@@ -84,9 +85,19 @@ const App = () => {
   };
 
   const handleSearch = () => {
-    const filteredData = originArticles.filter((item) =>
+    let filteredData = originArticles.filter((item) =>
       item['title'].includes(keyword)
     );
+
+    if (source!=="전체"){
+      // console.log("아닌데?")
+      filteredData = filteredData.filter((item) =>
+      item['platform'].includes(source)
+    );
+
+    }
+    
+    
     // console.log(filteredData); // 필터링된 결과를 콘솔에 출력하거나 다른 작업을 수행합니다.
     setChangedData(filteredData)
 
@@ -100,7 +111,7 @@ const App = () => {
   };
 
   const sortedData = ()=>{
-    let newArticles=originArticles.sort((a, b) => {
+    let newArticles=changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -111,7 +122,7 @@ const App = () => {
   }
   
   const sortApplyUp=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -122,7 +133,7 @@ const App = () => {
   }
 
   const sortApplyDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -132,7 +143,7 @@ const App = () => {
     setArticles(newData)
   }
   const sortDemandUp=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -143,7 +154,7 @@ const App = () => {
   }
 
   const sortDemandDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -154,7 +165,7 @@ const App = () => {
   }
 
   const sortDdayUp=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -165,7 +176,7 @@ const App = () => {
   }
 
   const sortDdayDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
+    let sortedData = changedData.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -180,14 +191,23 @@ const App = () => {
   }
   
   const handleChangeRegion = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
   
   const handleChangePlatform = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
+    setSource(value)
   };
-  
 
+  const handleClick=(e)=>{
+    e.preventDefault();
+    let text=e.target.textContent.replace("#","")
+    console.log(text);
+    setKeyword(text)
+    
+  }
+
+  const buttonNames=["배송","제품","인천","부산",'대구','경남','강남','대전','충청','수원','강원','광주','제주','숙박','홍대','부천','화성','성남','시흥','광주','울산','경남','남양주','용인','평택','용산','포항','강서구','경북','서구','파주']
 
   console.log(keyword)
   return (
@@ -223,7 +243,7 @@ const App = () => {
             다양한 체험단을 확인해보세요
           </h2>
         <Space className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center'}}>
-          <Space direction='horizontal'>
+          {/* <Space direction='horizontal'>
             <div style={{display:"flex"}}>지역</div>
             <Select
               className='optionRegion'
@@ -264,7 +284,7 @@ const App = () => {
                 },
               ]}
             />     
-            </Space>
+            </Space> */}
           <Space direction='horizontal'>
           <div>출처</div>
           <Select 
@@ -296,8 +316,11 @@ const App = () => {
           />
           </Space>
           <Space>
-            <Input placeholder="검색어를 입력하세요" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
-            <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+            <Input placeholder="검색어를 입력하세요" type="text" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
+            <Button type="primary" icon={<SearchOutlined />} onClick={()=>{
+              handleSearch();
+              setPage(1);
+            }}>
               검색
             </Button>
           </Space>       
@@ -309,7 +332,16 @@ const App = () => {
         
         
           <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
-            <Button type="primary">
+            {
+              buttonNames.map((elem,index)=>{
+                
+                return (
+                  <Button key={index} value={elem} onClick={handleClick} type='primary'>#{elem}</Button> 
+                )
+              })
+
+            }
+            {/* <Button type="primary">
               #카페
             </Button>
             <Button type="primary">
@@ -329,7 +361,7 @@ const App = () => {
             </Button>
             <Button type="primary">
               #골프
-            </Button>
+            </Button> */}
           </Space>
         
         
@@ -417,7 +449,7 @@ const App = () => {
                       <>
                         <Space style={{display:"flex",flexDirection:"column"}}>
                           <Space style={{flex:"1fr"}}>
-                            <p>{titleFront}</p>
+                            <p style={{display:"block", marginTop:"30%"}}>{titleFront}</p>
                           </Space>
                           <Space style={{width:"1fr"}}>
                             <p>{titleRr}</p>
@@ -450,7 +482,7 @@ const App = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} defaultCurrent={1} total={parseInt(originArticles.length/2)} showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e);console.log(page)}} current={page} defaultCurrent={page} total={parseInt(changedData.length/2)} showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
