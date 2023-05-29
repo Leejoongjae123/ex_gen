@@ -127,7 +127,7 @@ const App = () => {
   };
 
   const sortedData = ()=>{
-    let newArticles=changedData.sort((a, b) => {
+    let newArticles=articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -138,7 +138,8 @@ const App = () => {
   }
   
   const sortApplyUp=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -149,7 +150,7 @@ const App = () => {
   }
 
   const sortApplyDown=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -159,7 +160,7 @@ const App = () => {
     setArticles(newData)
   }
   const sortDemandUp=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -170,7 +171,7 @@ const App = () => {
   }
 
   const sortDemandDown=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -181,7 +182,7 @@ const App = () => {
   }
 
   const sortDdayUp=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -192,7 +193,7 @@ const App = () => {
   }
 
   const sortDdayDown=()=>{
-    let sortedData = changedData.sort((a, b) => {
+    let sortedData = articles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
