@@ -356,7 +356,7 @@ const App = () => {
           <Space direction='horizontal' className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center', width:"100%"}}>
             
               <div>출처</div>
-              <div style={{width:"7rem"}}>
+              <div style={{width:"8rem"}}>
                 <Select 
                   className='optionPlatform'
                   defaultValue="전체"
