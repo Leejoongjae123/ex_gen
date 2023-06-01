@@ -68,6 +68,10 @@ const App = () => {
   useEffect(()=>{
     getArticles()
   },[])
+  useEffect(()=>{
+    console.log("리렌더링")
+  },[articles])
+
   useEffect(()=>{ 
     if (keyword.length){
       console.log("CASE1")
@@ -139,7 +143,7 @@ const App = () => {
   
   const sortApplyUp=()=>{
     
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -150,17 +154,18 @@ const App = () => {
   }
 
   const sortApplyDown=()=>{
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
       return 0; // a.name과 b.name이 같으면 순서 유지
     });
     let newData=sortedData.slice((page-1)*20,(page)*20)
+    
     setArticles(newData)
   }
   const sortDemandUp=()=>{
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -171,7 +176,7 @@ const App = () => {
   }
 
   const sortDemandDown=()=>{
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -182,7 +187,7 @@ const App = () => {
   }
 
   const sortDdayUp=()=>{
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -193,7 +198,7 @@ const App = () => {
   }
 
   const sortDdayDown=()=>{
-    let sortedData = articles.sort((a, b) => {
+    let sortedData = originArticles.sort((a, b) => {
       // 기준이 되는 속성 값을 비교하여 정렬
       if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
       if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
@@ -259,88 +264,47 @@ const App = () => {
           <h2>
             다양한 체험단을 확인해보세요
           </h2>
-        <Space className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center'}}>
-          {/* <Space direction='horizontal'>
-            <div style={{display:"flex"}}>지역</div>
-            <Select
-              className='optionRegion'
-              defaultValue="전체"
-              onChange={handleChangeRegion}
-              options={[
-                {
-                  value: '전체',
-                  label: '전체',
-                },
-                {
-                  value: '서울',
-                  label: '서울',
-                },
-                {
-                  value: '경기/인천',
-                  label: '경기/인천',
-                },
-                {
-                  value: '대전/충청',
-                  label: '대전/충청',
-                },
-                {
-                  value: '대구/경북',
-                  label: '대구/경북',
-                },
-                {
-                  value: '부산/경남',
-                  label: '부산/경남',
-                },
-                {
-                  value: '광주/전라',
-                  label: '광주/전라',
-                },
-                {
-                  value: '기타',
-                  label: '기타',
-                },
-              ]}
-            />     
-            </Space> */}
-          <Space direction='horizontal'>
-          <div>출처</div>
-          <Select 
-            className='optionPlatform'
-            defaultValue="전체"
-            onChange={handleChangePlatform}
-            options={[
-              {
-                value: '전체',
-                label: '전체',
-              },
-              {
-                value: '강남맛집',
-                label: '강남맛집',
-              },
-              {
-                value: '놀러와체험단',
-                label: '놀러와체험단',
-              },
-              {
-                value: '디너의여왕',
-                label: '디너의여왕',
-              },
-              {
-                value: '데일리뷰',
-                label: '데일리뷰',
-              },
-            ]}
-          />
-          </Space>
-          <Space>
+          <Space direction='horizontal' className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center', width:"100%"}}>
+            
+              <div>출처</div>
+              <div style={{width:"7rem"}}>
+                <Select 
+                  className='optionPlatform'
+                  defaultValue="전체"
+                  onChange={handleChangePlatform}
+                  style={{width:"100%"}}
+                  options={[
+                    {
+                      value: '전체',
+                      label: '전체',
+                    },
+                    {
+                      value: '강남맛집',
+                      label: '강남맛집',
+                    },
+                    {
+                      value: '놀러와체험단',
+                      label: '놀러와체험단',
+                    },
+                    {
+                      value: '디너의여왕',
+                      label: '디너의여왕',
+                    },
+                    {
+                      value: '데일리뷰',
+                      label: '데일리뷰',
+                    },
+                  ]}
+                />
+              </div>
+          
             <Input placeholder="검색어를 입력하세요" type="text" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
             <Button type="primary" icon={<SearchOutlined />} onClick={()=>{
               handleSearch();
               setPage(1);
             }}>
               검색
-            </Button>
-          </Space>       
+            </Button>       
         </Space>
         
         
@@ -358,27 +322,6 @@ const App = () => {
               })
 
             }
-            {/* <Button type="primary">
-              #카페
-            </Button>
-            <Button type="primary">
-              #삼겹살
-            </Button>
-            <Button type="primary">
-              #뷰티
-            </Button>
-            <Button type="primary">
-              #헤어
-            </Button>
-            <Button type="primary">
-              #분식
-            </Button>
-            <Button type="primary">
-              #테니스
-            </Button>
-            <Button type="primary">
-              #골프
-            </Button> */}
           </Space>
         
         
@@ -402,8 +345,10 @@ const App = () => {
               }else if(e==="모집 많은순"){
                 sortDemandDown();
               }else if(e==="기한 적은순"){
+                console.log("기한적은순정렬")
                 sortDdayUp();
               }else if(e==="기한 많은순"){
+                console.log("기한많은순정렬")
                 sortDdayDown();
               }else{
                 sortTitle();
