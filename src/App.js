@@ -68,9 +68,10 @@ const App = () => {
   useEffect(()=>{
     getArticles()
   },[])
-  useEffect(()=>{
-    console.log("리렌더링")
-  },[articles])
+
+  // useEffect(()=>{
+  //   console.log("리렌더링")
+  // },[articles])
 
   useEffect(()=>{ 
     if (keyword.length){
@@ -131,81 +132,168 @@ const App = () => {
   };
 
   const sortedData = ()=>{
-    let newArticles=articles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    setArticles(newArticles)
-    console.log("정렬완료")
+    console.log(changedData)
+    if (keyword.length>=1 || source!="전체"){
+      let sortedData=changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    } else{
+      let sortedData=originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    }
+
   }
   
   const sortApplyUp=()=>{
-    
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    setArticles(newData)
+    if(keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    } else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    } 
   }
 
   const sortApplyDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    
-    setArticles(newData)
+    if(keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+          if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+          if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+          return 0; // a.name과 b.name이 같으면 순서 유지
+        });
+        let newData=sortedData.slice((page-1)*20,(page)*20)
+        setArticles(newData)
+    }else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+          if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+          if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+          return 0; // a.name과 b.name이 같으면 순서 유지
+        });
+        let newData=sortedData.slice((page-1)*20,(page)*20)
+        setArticles(newData)
+    }
+
   }
+
   const sortDemandUp=()=>{
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    setArticles(newData)
+    if (keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    } else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    }
+
+
   }
 
   const sortDemandDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    setArticles(newData)
+    if (keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+      
+    } else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    }
+
+
   }
 
   const sortDdayUp=()=>{
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    setArticles(newData)
+    if (keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    } else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    }
+
   }
 
   const sortDdayDown=()=>{
-    let sortedData = originArticles.sort((a, b) => {
-      // 기준이 되는 속성 값을 비교하여 정렬
-      if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-      if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-      return 0; // a.name과 b.name이 같으면 순서 유지
-    });
-    let newData=sortedData.slice((page-1)*20,(page)*20)
-    setArticles(newData)
+    if (keyword.length>=1 || source!="전체"){
+      let sortedData = changedData.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+      
+    } else{
+      let sortedData = originArticles.sort((a, b) => {
+        // 기준이 되는 속성 값을 비교하여 정렬
+        if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
+        if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
+        return 0; // a.name과 b.name이 같으면 순서 유지
+      });
+      let newData=sortedData.slice((page-1)*20,(page)*20)
+      setArticles(newData)
+    }
+
   }
 
   const sortTitle=()=>{
@@ -231,7 +319,8 @@ const App = () => {
 
   const buttonNames=["배송","제품","인천","부산",'대구','경남','강남','대전','충청','수원','강원','광주','제주','숙박','홍대','부천','화성','성남','시흥','광주','울산','경남','남양주','용인','평택','용산','포항','강서구','경북','서구','파주']
 
-  console.log(keyword)
+  // console.log(keyword,keyword.length)
+
   return (
     <Layout style={{backgroundColor:"#eee"}}>
       <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 0",height:"5rem"}}>
