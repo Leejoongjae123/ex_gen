@@ -352,7 +352,7 @@ const App = () => {
       
         <Carousel autoplay>
           <a target='_blank' href='http://pf.kakao.com/_Crxgvxj'><div className='banner1'></div></a>
-          <div className='banner2'>
+          <div className='banner2' style={{backgroundColor:"aquamarine"}}>2
           </div>
         </Carousel>
       
