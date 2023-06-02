@@ -16,13 +16,13 @@ import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
 import { useEffect,useState } from 'react';
-import axios from 'axios';
 import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database} from './firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import banner1 from './pictures/banner1.jpg'
+import banner1 from './pictures/banner1.jpg';
+import axios from 'axios'
 
 const { Header, Content, Footer } = Layout;
 
@@ -56,7 +56,7 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const [visitors, setVisitors] = useState(null);
   const [articles,setArticles]=useState([]);
   const [isLoading,setIsLoading]=useState(false);
   const [page,setPage]=useState(1);
@@ -65,6 +65,59 @@ const App = () => {
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
   const [source,setSource]=useState("전체")
+
+  async function fetchData() {
+    try {
+      const jsonData= await await axios.post(
+        'https://content-analyticsdata.googleapis.com/v1beta/properties/378226211:runReport',
+        {
+          'metrics': [
+            {
+              'name': 'activeUsers'
+            }
+          ],
+          'dateRanges': [
+            {
+              'startDate': '2023-05-31',
+              'endDate': '2023-05-31'
+            }
+          ],
+          'keepEmptyRows': true
+        },
+        {
+          params: {
+            'alt': 'json'
+          },
+          headers: {
+            'authority': 'content-analyticsdata.googleapis.com',
+            'accept': '*/*',
+            'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+            'authorization': 'Bearer ya29.a0AWY7CkkTohPDku8JIR_IDLoF56g_MLa0UOZZlXM_2kyP882Lh6S3BBvNDg33Sk2qXmhcufnxDXO4s8B66KNWFpBPDvgQVXTKfxyfy7aX_9o7yY7cFUTy5gPp-hDdDzra0qs-zTEF2dhbvasK6vLnryILcVrwpvz97JeH1AYlwtbI18yNaSvFHyGoMajnX72ObT2Ylp1xb8wVHXKYS0kcFqsqlgFtROUZcGuwaCgYKAcESARMSFQG1tDrpKHSmW5Uzg7VoE0Hi84jnCw0235',
+            'content-type': 'application/json',
+            'origin': 'https://content-analyticsdata.googleapis.com',
+            'referer': 'https://content-analyticsdata.googleapis.com/static/proxy.html?usegapi=1&jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.ko.ZQ8tqpuRz-8.O%2Fd%3D1%2Frs%3DAHpOoo-BEBGWlE_qP0_g85kJmCHrarWWvA%2Fm%3D__features__',
+            'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
+            'x-client-data': 'CKq1yQEIkLbJAQimtskBCKmdygEIgtrKAQiSocsBCJ3+zAEIrZzNAQiFoM0BCIunzQEIxKrNAQ==',
+            'x-clientdetails': 'appVersion=5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F113.0.0.0%20Safari%2F537.36&platform=Win32&userAgent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F113.0.0.0%20Safari%2F537.36',
+            'x-goog-encode-response-if-executable': 'base64',
+            'x-javascript-user-agent': 'google-api-javascript-client/1.1.0',
+            'x-origin': 'https://ga-dev-tools.google',
+            'x-referer': 'https://ga-dev-tools.google',
+            'x-requested-with': 'XMLHttpRequest'
+          }
+        }
+      );
+      setVisitors(jsonData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   
   const getArticles=async ()=>{  
@@ -85,7 +138,8 @@ const App = () => {
   }
 
   useEffect(()=>{
-    getArticles()
+    getArticles();
+    fetchData();
   },[])
 
   // useEffect(()=>{
@@ -340,7 +394,7 @@ const App = () => {
 
   // console.log(keyword,keyword.length)
 
-
+  
 
   return (
     <Layout style={{backgroundColor:"#eee"}}>
@@ -352,7 +406,8 @@ const App = () => {
       
         <Carousel autoplay>
           <a target='_blank' href='http://pf.kakao.com/_Crxgvxj'><div className='banner1'></div></a>
-          <div className='banner2' style={{backgroundColor:"aquamarine"}}>2
+          <div className='banner2' style={{backgroundColor:"aquamarine",textAlign:'center'}}>
+            <h2 >2</h2>
           </div>
         </Carousel>
       
