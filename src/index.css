@@ -50,3 +50,9 @@ img{
     width:120px;
   }
 }
+
+.banner1{
+  background-image: url('./pictures/banner1.jpg');
+  background-size: cover;
+  height: 20vh;
+}

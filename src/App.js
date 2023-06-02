@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{PureComponent} from 'react';
 import { Layout, theme } from 'antd';
 import { Pagination } from 'antd';
 import { Carousel } from 'antd';
@@ -11,7 +11,7 @@ import picture6 from './pictures/picture6.jpg'
 import logo2 from './pictures/logo2.png'
 import logo from './pictures/logo.png'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Tooltip,Spin,Alert,Select,Badge,Dropdown, message } from 'antd';
+import { Button, Space, Spin,Alert,Select,Badge,Dropdown, message } from 'antd';
 import { Input } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Image } from 'antd';
@@ -21,17 +21,36 @@ import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} 
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database} from './firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import banner1 from './pictures/banner1.jpg'
 
 const { Header, Content, Footer } = Layout;
 
+const chartData = [
+  {
+    name: '5/29',
+    visitors: 65,
+  },
+  {
+    name: '5/30',
+    visitors:74
+  },
+  {
+    name: '5/31',
+    visitors: 54,
 
-const contentStyle = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
+  },
+  {
+    name: '6/1',
+    visitors: 87,
+  },
+  {
+    name: '6/2',
+    visitors:35
+  },
+];
+
+
 
 const App = () => {
   const {
@@ -321,38 +340,73 @@ const App = () => {
 
   // console.log(keyword,keyword.length)
 
+
+
   return (
     <Layout style={{backgroundColor:"#eee"}}>
-      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 0",height:"5rem"}}>
+      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%',display:'flex',margin:0,padding:"0 3% 0 0",height:"5rem",display:'flex'}}>
         <Image  preview={false} width={300} height={50} src={logo2} style={{objectFit:'cover',justifyContent:"left",alignItems:'center',marginTop:"2%"}}/>
         {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
-        
+
       </Header>
+      
+        <Carousel autoplay>
+          <a target='_blank' href='http://pf.kakao.com/_Crxgvxj'><div className='banner1'></div></a>
+          <div className='banner2'>
+          </div>
+        </Carousel>
+      
+        
 
-      <Carousel autoplay>
-        <div>
-          <h3 style={contentStyle}>1</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>2</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>3</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>4</h3>
-        </div>
-      </Carousel>
+        
+      
       {/* <Button onClick={sortTest}>111</Button> */}
+      <div>
 
+      
+      </div>
+      
 
 
       <Content className="site-layout" style={{ padding: '3%',height:"100%"}}>
         
         <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
-          <h2>
-            다양한 체험단을 확인해보세요
-          </h2>
+          <Space direction='horizontal'>
+            <div style={{textAlign:'center'}}>
+              <h2>
+                다양한 체험단을 확인해보세요
+              </h2>
+            </div>
+            <div style={{position:'absolute',right:"5%",display:"flex",flexDirection:'column'}}> 
+              <div>
+                <span>방문자수</span>
+              </div>
+              <div>
+              <BarChart 
+              width={300}
+              height={100}
+              data={chartData}
+              margin={{
+                top: 20,
+                right: 20,
+                left: 20,
+                bottom: 20
+              }}
+              padding={{
+
+              }}
+            >
+              <XAxis dataKey="name" />
+              <Bar dataKey="visitors" fill="#8884d8" label={{position:"top"}}/>
+            </BarChart>
+              </div>
+              
+            </div>
+            {/* <div style={{position:'absolute',right:"10%"}}>
+              <h3>나우</h3>
+            </div> */}
+          </Space>
+          
           <Space direction='horizontal' className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center', width:"100%"}}>
             
               <div>출처</div>
