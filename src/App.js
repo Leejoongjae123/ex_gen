@@ -437,7 +437,7 @@ const App = () => {
                 <span>방문자수</span>
               </div>
               <div>
-              <BarChart 
+              {/* <BarChart 
               width={300}
               height={100}
               data={chartData}
@@ -453,7 +453,7 @@ const App = () => {
             >
               <XAxis dataKey="name" />
               <Bar dataKey="visitors" fill="#8884d8" label={{position:"top"}}/>
-            </BarChart>
+            </BarChart> */}
               </div>
               
             </div>
