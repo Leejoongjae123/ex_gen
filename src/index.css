@@ -56,3 +56,9 @@ img{
   background-size: cover;
   height: 20vh;
 }
+
+.logo_container{
+  width:30%;
+  height: 50%;
+  display: flex;
+}
