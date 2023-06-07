@@ -65,7 +65,7 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [visitors, setVisitors] = useState(null);
+  const [visitors, setVisitors] = useState([0,0,0,0,0]);
   const [articles,setArticles]=useState([]);
   const [isLoading,setIsLoading]=useState(false);
   const [page,setPage]=useState(1);
@@ -74,6 +74,8 @@ const App = () => {
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
   const [source,setSource]=useState("전체")
+  
+
 
 
 
@@ -95,13 +97,29 @@ const App = () => {
     });
   }
 
+  const getVisitors=async ()=>{  
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, 'visitors')).then((snapshot) => {
+      if (snapshot.exists()) {
+        let data=snapshot.val()
+        setVisitors(data)
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
 
 
 
   useEffect(()=>{
     getArticles();
+    getVisitors();
   },[])
 
+  console.log(visitors)
   // useEffect(()=>{
   //   console.log("리렌더링")
   // },[articles])
@@ -366,25 +384,6 @@ const App = () => {
           {/* <Image  preview={false} width={300} height={50} src={logo2} style={{objectFit:'cover',position:'absolute',left:"0",marginTop:"2%"}}/> */}
         
         {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
-        <div style={{width:"30%", maxWidth:"30%"}}>
-        {/* <BarChart 
-              width={300}
-              height={100}
-              data={chartData}
-              margin={{
-                top: 20,
-                right: 20,
-                left: 20,
-                bottom: 20
-              }}
-              padding={{
-
-              }}
-            >
-              <XAxis dataKey="name" />
-              <Bar dataKey="visitors" fill="#8884d8" label={{position:"top"}}/>
-            </BarChart> */}
-        </div>
 
       </Header>
       
@@ -396,7 +395,7 @@ const App = () => {
           <h3 style={contentStyle}>2</h3>
         </div>
         </Carousel>
-      
+
         
 
         
@@ -410,203 +409,223 @@ const App = () => {
 
 
       <Content className="site-layout" style={{ padding: '3%',height:"100%"}}>
-        
-        <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
-          <Space direction='horizontal'>
-            <div style={{textAlign:'center'}}>
-              <h2>
-                다양한 체험단을 확인해보세요
-              </h2>
-            </div>
-            <div style={{position:'absolute',right:"5%",display:"flex",flexDirection:'column'}}> 
-              <div>
-                {/* <span>방문자수</span> */}
-              </div>
-              <div>
+        <Space style={{display:"flex",flexDirection:"column"}}>
+              <h7 style={{color:"#000000"}}>방문자수</h7>
+              <BarChart
+              style={{color:"black"}} 
+                    width={300}
+                    height={100}
+                    data={visitors}
+                    margin={{
+                      top: 20,
+                      right: 20,
+                      left: 20,
+                      bottom: 20
+                    }}
+                    padding={{
 
-              </div>
-              
-            </div>
-            {/* <div style={{position:'absolute',right:"10%"}}>
-              <h3>나우</h3>
-            </div> */}
+                    }}
+                  >
+                    <XAxis dataKey="name" style={{color:"black",fill:"black"}} />
+                    <Bar dataKey="visitors" fill="#0d6efd" label={{position:"top",fill:"black"}}/>
+                </BarChart>
           </Space>
-          
-          <Space direction='horizontal' className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center', width:"100%"}}>
+          <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
+            <Space direction='horizontal'>
+              <div style={{textAlign:'center'}}>
+                <h2>
+                  다양한 체험단을 확인해보세요
+                </h2>
+              </div>
+              <div style={{position:'absolute',right:"5%",display:"flex",flexDirection:'column'}}> 
+                <div>
+                  {/* <span>방문자수</span> */}
+                </div>
+                <div>
+
+                </div>
+                
+              </div>
+              {/* <div style={{position:'absolute',right:"10%"}}>
+                <h3>나우</h3>
+              </div> */}
+            </Space>
             
-              {/* <div>출처</div> */}
-              <div style={{width:"8rem"}}>
-                <Select 
-                  className='optionPlatform'
-                  defaultValue="전체"
-                  onChange={handleChangePlatform}
-                  style={{width:"100%"}}
-                  options={[
-                    {
-                      value: '전체',
-                      label: '전체',
-                    },
-                    {
-                      value: '강남맛집',
-                      label: '강남맛집',
-                    },
-                    {
-                      value: '놀러와체험단',
-                      label: '놀러와체험단',
-                    },
-                    {
-                      value: '디너의여왕',
-                      label: '디너의여왕',
-                    },
-                    {
-                      value: '데일리뷰',
-                      label: '데일리뷰',
-                    },
-                  ]}
-                />
-              </div>
-          
-            <Input placeholder="검색어를 입력하세요" type="text" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
-            <Button type="primary" icon={<SearchOutlined />} onClick={()=>{
-              handleSearch();
-              setPage(1);
-            }}>
-              검색
-            </Button>       
-        </Space>
-        
-        
-        
-          
-        
-        
-          <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
-            {
-              buttonNames.map((elem,index)=>{
-                
-                return (
-                  <Button key={index} value={elem} onClick={handleClick} type='primary'>#{elem}</Button> 
-                )
-              })
-
-            }
+            <Space direction='horizontal' className="searchBar" size="middle" style={{ display: 'flex',margin:"20px",justifyContent:'center',justifyContent:'center', width:"100%"}}>
+              
+                {/* <div>출처</div> */}
+                <div style={{width:"8rem"}}>
+                  <Select 
+                    className='optionPlatform'
+                    defaultValue="전체"
+                    onChange={handleChangePlatform}
+                    style={{width:"100%"}}
+                    options={[
+                      {
+                        value: '전체',
+                        label: '전체',
+                      },
+                      {
+                        value: '강남맛집',
+                        label: '강남맛집',
+                      },
+                      {
+                        value: '놀러와체험단',
+                        label: '놀러와체험단',
+                      },
+                      {
+                        value: '디너의여왕',
+                        label: '디너의여왕',
+                      },
+                      {
+                        value: '데일리뷰',
+                        label: '데일리뷰',
+                      },
+                    ]}
+                  />
+                </div>
+            
+              <Input placeholder="검색어를 입력하세요" type="text" value={keyword} onChange={handleInputChange} style={{width:"100%",minWidth:"100%",textAlign:"center"}}/>
+              <Button type="primary" icon={<SearchOutlined />} onClick={()=>{
+                handleSearch();
+                setPage(1);
+              }}>
+                검색
+              </Button>       
           </Space>
-        
-        
-
-        
-        
-        <Space align='end' style={{display:'flex',justifyContent:"flex-end"}}>
-          <Select
-            defaultValue="기본"
-            style={{
-              width: 120,
-              margin:"10% 0 10% 0"
-            }}
-            onChange={(e)=>{
-              if(e==="지원 적은순"){
-                sortApplyUp();
-              }else if(e==="지원 많은순"){
-                sortApplyDown();
-              }else if(e==="모집 적은순"){
-                sortDemandUp();
-              }else if(e==="모집 많은순"){
-                sortDemandDown();
-              }else if(e==="기한 적은순"){
-                console.log("기한적은순정렬")
-                sortDdayUp();
-              }else if(e==="기한 많은순"){
-                console.log("기한많은순정렬")
-                sortDdayDown();
-              }else{
-                sortTitle();
-              }
-            }}
-            options={[
+          
+          
+          
+            
+          
+          
+            <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
               {
-                value: '기본',
-                label: '기본',
-              },
-              {
-                value: '기한 많은순',
-                label: '기한 많은순',
-              },
-              {
-                value: '기한 적은순',
-                label: '기한 적은순',
-              },
-              {
-                value: '지원 많은순',
-                label: '지원 많은순',
-              },
-              {
-                value: '지원 적은순',
-                label: '지원 적은순',
-              },
-              {
-                value: '모집 많은순',
-                label: '모집 많은순',
-              },
-              {
-                value: '모집 적은순',
-                label: '모집 적은순',
-              },
-            ]}
-          />
-        </Space>
-        
-        <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
-          <Row gutter={16}>
-            {
-              articles.map((elem,index)=>{
-                
-                let partition=articles[index]['title'].indexOf(']');
-                let titleFront=articles[index]['title'].slice(0,partition+1);
-                let titleRr=articles[index]['title'].slice(partition+1,partition.length);
-                
-                return(
-                <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%",alignItems:'center'}}>
-                  <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
-                  <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
-                      {isLoading
-                      ?
-                      <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
-                      :
-                      <Spin tip="Loading" size="large"></Spin>
-                      }
-                      {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
-                      {isLoading&&
-                      <>
-                        <Space style={{display:"flex",flexDirection:"column"}}>
-                          <Space style={{flex:"1fr"}}>
-                            <p style={{display:"block", marginTop:"30%"}}>{titleFront}</p>
-                          </Space>
-                          <Space style={{width:"1fr"}}>
-                            <p>{titleRr}</p>
-                          </Space>
-                          
-                        </Space>
-                      
-                      </>
-                      }       
-                    {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
-                    <Space style={{display:"flex",justifyContent:"center"}}>
-                      <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
-                      <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
-                    </Space>
-                    
-                  </Card>
-                  </Badge.Ribbon>
+                buttonNames.map((elem,index)=>{
                   
-                </Col>
-                )
-                
-              })
-            }
-          </Row>
-        </Space>
-        
-        </div>
+                  return (
+                    <Button key={index} value={elem} onClick={handleClick} type='primary'>#{elem}</Button> 
+                  )
+                })
+
+              }
+            </Space>
+          
+          
+
+          
+          
+          <Space align='end' style={{display:'flex',justifyContent:"flex-end"}}>
+            <Select
+              defaultValue="기본"
+              style={{
+                width: 120,
+                margin:"10% 0 10% 0"
+              }}
+              onChange={(e)=>{
+                if(e==="지원 적은순"){
+                  sortApplyUp();
+                }else if(e==="지원 많은순"){
+                  sortApplyDown();
+                }else if(e==="모집 적은순"){
+                  sortDemandUp();
+                }else if(e==="모집 많은순"){
+                  sortDemandDown();
+                }else if(e==="기한 적은순"){
+                  console.log("기한적은순정렬")
+                  sortDdayUp();
+                }else if(e==="기한 많은순"){
+                  console.log("기한많은순정렬")
+                  sortDdayDown();
+                }else{
+                  sortTitle();
+                }
+              }}
+              options={[
+                {
+                  value: '기본',
+                  label: '기본',
+                },
+                {
+                  value: '기한 많은순',
+                  label: '기한 많은순',
+                },
+                {
+                  value: '기한 적은순',
+                  label: '기한 적은순',
+                },
+                {
+                  value: '지원 많은순',
+                  label: '지원 많은순',
+                },
+                {
+                  value: '지원 적은순',
+                  label: '지원 적은순',
+                },
+                {
+                  value: '모집 많은순',
+                  label: '모집 많은순',
+                },
+                {
+                  value: '모집 적은순',
+                  label: '모집 적은순',
+                },
+              ]}
+            />
+          </Space>
+          
+          <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
+            <Row gutter={16}>
+              {
+                articles.map((elem,index)=>{
+                  
+                  let partition=articles[index]['title'].indexOf(']');
+                  let titleFront=articles[index]['title'].slice(0,partition+1);
+                  let titleRr=articles[index]['title'].slice(partition+1,partition.length);
+                  
+                  return(
+                  <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%",alignItems:'center'}}>
+                    <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
+                    <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
+                        {isLoading
+                        ?
+                        <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
+                        :
+                        <Spin tip="Loading" size="large"></Spin>
+                        }
+                        {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
+                        {isLoading&&
+                        <>
+                          <Space style={{display:"flex",flexDirection:"column"}}>
+                            <Space style={{flex:"1fr"}}>
+                              <p style={{display:"block", marginTop:"30%"}}>{titleFront}</p>
+                            </Space>
+                            <Space style={{width:"1fr"}}>
+                              <p>{titleRr}</p>
+                            </Space>
+                            
+                          </Space>
+                        
+                        </>
+                        }       
+                      {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
+                      <Space style={{display:"flex",justifyContent:"center"}}>
+                        <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
+                        <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
+                      </Space>
+                      
+                    </Card>
+                    </Badge.Ribbon>
+                    
+                  </Col>
+                  )
+                  
+                })
+              }
+            </Row>
+          </Space>
+          
+          </div>
 
 
 
