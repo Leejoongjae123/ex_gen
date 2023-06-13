@@ -416,6 +416,7 @@ const App = () => {
                     width={300}
                     height={100}
                     data={visitors}
+                    fontSize="100%"
                     margin={{
                       top: 20,
                       right: 20,
