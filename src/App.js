@@ -413,7 +413,7 @@ const App = () => {
               <h7 style={{color:"#000000"}}>방문자수</h7>
               <BarChart
               style={{color:"black"}} 
-                    width={300}
+                    width={400}
                     height={100}
                     data={visitors}
                     fontSize="100%"
