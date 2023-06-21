@@ -35,29 +35,7 @@ const contentStyle: React.CSSProperties = {
   background: '#364d79',
 };
 
-const chartData = [
-  {
-    name: '5/29',
-    visitors: 65,
-  },
-  {
-    name: '5/30',
-    visitors:74
-  },
-  {
-    name: '5/31',
-    visitors: 54,
 
-  },
-  {
-    name: '6/1',
-    visitors: 87,
-  },
-  {
-    name: '6/2',
-    visitors:35
-  },
-];
 
 
 
@@ -479,8 +457,24 @@ const App = () => {
                         label: '디너의여왕',
                       },
                       {
-                        value: '데일리뷰',
-                        label: '데일리뷰',
+                        value: '가보자체험단',
+                        label: '가보자체험단',
+                      },
+                      {
+                        value: '미블',
+                        label: '미블',
+                      },
+                      {
+                        value: '오마이블로그',
+                        label: '오마이블로그',
+                      },
+                      {
+                        value: '서울오빠',
+                        label: '서울오빠',
+                      },
+                      {
+                        value: '레뷰',
+                        label: '레뷰',
                       },
                     ]}
                   />

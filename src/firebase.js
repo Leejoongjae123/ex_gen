@@ -1,7 +1,6 @@
 import { initializeApp, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {getDatabase} from 'firebase/database'
-
 function initializeAppIfNecessary() {
 
 try {
