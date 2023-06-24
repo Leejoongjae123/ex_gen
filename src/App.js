@@ -103,12 +103,12 @@ const App = () => {
   // },[articles])
 
   useEffect(()=>{ 
-    if (keyword.length){
+    if (keyword.length>=1){
       console.log("CASE1")
       setArticles(changedData.slice((page-1)*20,(page)*20))
     } else{
       console.log("CASE2")
-      setArticles(originArticles.slice((page-1)*20,(page)*20))
+      setArticles(changedData.slice((page-1)*20,(page)*20))
     }
   },[page])
 
@@ -119,10 +119,6 @@ const App = () => {
   };
 
   const handleSearch = () => {
-    
-    // let filteredData = originArticles.filter((item) =>
-    //   item['title'].includes(keyword)
-    // );
 
     let filteredData = originArticles.filter((elem) => {
       if (source=="전체"){
@@ -130,25 +126,15 @@ const App = () => {
         // console.log(title,platform)
         return title.includes(keyword);
       } else{
-        const { title, platform } = elem;
-        // console.log(title,platform)
-        return title.includes(keyword) && platform.includes(source);
+        // console.log("keywordlength:",keyword.length)
+          const { title, platform } = elem;
+          // console.log(title,platform)
+          return title.includes(keyword) && platform.includes(source);
+          // return platform.includes(source);
       }
       
     });
-
     console.log("filteredData:",filteredData)
-    // if (source!=="전체"){
-    //   console.log("아닌데?")
-    //   filteredData = filteredData.filter((item) =>
-    //   item['platform'].includes(source)
-    // );
-
-    // }
-    
-    // console.log(source)
-    
-    // console.log(filteredData); // 필터링된 결과를 콘솔에 출력하거나 다른 작업을 수행합니다.
     setChangedData(filteredData)
 
     const partialFilteredData=filteredData.slice((page-1)*20,(page)*20)
