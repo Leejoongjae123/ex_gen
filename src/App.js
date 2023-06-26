@@ -1,20 +1,7 @@
 import React,{PureComponent} from 'react';
-import { Layout, theme } from 'antd';
-import { Pagination } from 'antd';
-import { Carousel } from 'antd';
-import picture1 from './pictures/picture1.jpg'
-import picture2 from './pictures/picture2.jpg'
-import picture3 from './pictures/picture3.jpg'
-import picture4 from './pictures/picture4.png'
-import picture5 from './pictures/picture5.jpg'
-import picture6 from './pictures/picture6.jpg'
 import logo2 from './pictures/logo2.png'
-import logo from './pictures/logo.png'
+import { Card, Col, Row,Image,Input,Button, Space, Spin,Alert,Select,Badge,Dropdown, message,Carousel,Pagination,Layout,theme } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Space, Spin,Alert,Select,Badge,Dropdown, message } from 'antd';
-import { Input } from 'antd';
-import { Card, Col, Row } from 'antd';
-import { Image } from 'antd';
 import { useEffect,useState } from 'react';
 import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
@@ -22,7 +9,6 @@ import {dbService, database} from './firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import banner1 from './pictures/banner1.jpg';
-import axios from 'axios'
 
 const { Header, Content, Footer } = Layout;
 
@@ -34,9 +20,6 @@ const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   background: '#364d79',
 };
-
-
-
 
 
 const App = () => {
@@ -52,11 +35,6 @@ const App = () => {
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
   const [source,setSource]=useState("전체")
-  
-
-
-
-
   
   const getArticles=async ()=>{  
     const dbRef = ref(getDatabase());
