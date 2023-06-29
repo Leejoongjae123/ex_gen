@@ -40,8 +40,6 @@ function Login() {
         }
         
     }
-    
-    console.log(email,password)
 
     const navigate=useNavigate()
     const handleRegisterClick = () => {
