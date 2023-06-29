@@ -1,6 +1,7 @@
 import { initializeApp, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {getDatabase} from 'firebase/database'
+import {getAuth} from 'firebase/auth'
 function initializeAppIfNecessary() {
 
 try {
@@ -24,5 +25,6 @@ return initializeApp(firebaseConfig);
 }
 
 const app = initializeAppIfNecessary();
+export const authService=getAuth();
 export const dbService = getFirestore();
 export const database = getDatabase();

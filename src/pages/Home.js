@@ -1,11 +1,11 @@
 import React,{PureComponent} from 'react';
-import logo2 from './pictures/logo2.png'
+import logo2 from '../pictures/logo2.png';
 import { Card, Col, Row,Image,Input,Button, Space, Spin,Alert,Select,Badge,Dropdown, message,Carousel,Pagination,Layout,theme } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useEffect,useState } from 'react';
 import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
-import {dbService, database,authService} from './firebase';
+import {dbService, database,authService} from '../firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
