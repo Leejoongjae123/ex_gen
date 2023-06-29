@@ -1,0 +1,14 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    /* 상하좌우 정중앙 정렬하기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .child {
+    top:50%;
+    width: 500px;
+    height: 500px;
+    display:flex;
+  }

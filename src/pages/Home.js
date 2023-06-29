@@ -8,8 +8,8 @@ import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database,authService} from '../firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-import banner1 from './pictures/banner1.jpg';
+import { useNavigate } from 'react-router-dom';
+import banner1 from '../pictures/banner1.jpg';
 
 const { Header, Content, Footer } = Layout;
 
@@ -23,7 +23,7 @@ const contentStyle: React.CSSProperties = {
 };
 
 
-const App = () => {
+const Home = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -313,8 +313,11 @@ const App = () => {
   const buttonNames=["배송","제품","인천","부산",'대구','경남','강남','대전','충청','수원','강원','광주','제주','숙박','홍대','부천','화성','성남','시흥','광주','울산','경남','남양주','용인','평택','용산','포항','강서구','경북','서구','파주']
 
   // console.log(keyword,keyword.length)
-
-
+  const navigate=useNavigate()
+  const onLogOutClick=()=>{
+    authService.signOut();
+    navigate("/")
+  }
   
 
   return (
@@ -326,7 +329,7 @@ const App = () => {
           {/* <Image  preview={false} width={300} height={50} src={logo2} style={{objectFit:'cover',position:'absolute',left:"0",marginTop:"2%"}}/> */}
         
         {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
-
+        <Button onClick={onLogOutClick} style={{margin:"1%"}}>로그아웃</Button>
       </Header>
       
       <Carousel autoplay>
@@ -591,4 +594,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;
