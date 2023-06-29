@@ -44,10 +44,13 @@ function Register() {
         }
         
     }
+    const onClickHome=()=>{
+        navigate("/")
+    }
   return (
     <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center", marginTop:"25vh"}}>
         <div style={{display:"flex",width:"50vw",justifyContent:"center"}}>
-            <Image style={{display:"block", margin:"10% 0 10% 0",maxWidth:"100%"}} src={logo2} preview={false}></Image>
+            <Image onClick={onClickHome} style={{cursor:"pointer", display:"block", margin:"10% 0 10% 0",maxWidth:"100%"}} src={logo2} preview={false}></Image>
         </div>
         <Space style={{width:"30vw",height:"100vh"}}direction='vertical'>        
             
