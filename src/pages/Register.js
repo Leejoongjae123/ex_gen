@@ -1,6 +1,6 @@
 //App.js
 
-import React,{PureComponent,useState} from 'react';
+import React,{PureComponent,useEffect,useState} from 'react';
 import { Button, Checkbox, Divider, Form, Input, Space,Image,Alert } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
@@ -16,6 +16,7 @@ function Register() {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState('')
+    const [isComplete,setIsComplete]=useState(false)
     const onChange = (event) => {
         const {
           target: { name, value }
@@ -37,16 +38,21 @@ function Register() {
         try{
             const data= await createUserWithEmailAndPassword(auth,email,password)
             console.log(data)
+            setIsComplete(true)
             
         } catch(error){
             console.log(error)
             setError(error)
         }
-        
     }
     const onClickHome=()=>{
         navigate("/")
     }
+    if(isComplete){
+        navigate("/")
+    }
+
+
   return (
     <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center", marginTop:"25vh"}}>
         <div style={{display:"flex",width:"50vw",justifyContent:"center"}}>
@@ -64,7 +70,9 @@ function Register() {
             {
                 error&&<Alert style={{textAlign:"center"}} message={JSON.stringify(error.code)} type="error" />
             }
-            
+            {
+                isComplete&&<Alert style={{textAlign:"center"}} message="회원가입을 완료하였습니다.홈으로 이동하여 로그인 하세요" type="error" />
+            }
             
         </Space>               
     </div>  
