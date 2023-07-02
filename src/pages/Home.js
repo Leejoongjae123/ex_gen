@@ -87,7 +87,11 @@ const Home = () => {
       setArticles(changedData.slice((page-1)*20,(page)*20))
     } else{
       console.log("CASE2")
-      setArticles(changedData.slice((page-1)*20,(page)*20))
+      if(changedData.length===0){
+        setArticles(originArticles.slice((page-1)*20,(page)*20))
+      } else{
+        setArticles(changedData.slice((page-1)*20,(page)*20))
+      }
     }
   },[page])
 
