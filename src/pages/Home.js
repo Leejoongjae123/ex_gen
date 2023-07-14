@@ -439,6 +439,22 @@ const Home = () => {
                         value: '레뷰',
                         label: '레뷰',
                       },
+                      {
+                        value: '리뷰플레이스',
+                        label: '레뷰플레이스',
+                      },
+                      {
+                        value: '체험뷰',
+                        label: '체험뷰',
+                      },
+                      {
+                        value: '리뷰노트',
+                        label: '리뷰노트',
+                      },
+                      {
+                        value: '클라우드리뷰',
+                        label: '클라우드리뷰',
+                      },
                     ]}
                   />
                 </div>
