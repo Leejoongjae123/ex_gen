@@ -10,22 +10,22 @@ function App() {
   const [init,setInit]=useState(false)
   const [isLoggedIn, setIsLoggedIn]=useState(authService.currentUser)
 
-  // useEffect(() => {
-  //   const auth = getAuth();
-  //   onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //   setIsLoggedIn(true);
-  //   const uid = user.uid;
-  //   console.log(uid)
-  //   } else {
-  //   setIsLoggedIn(false);
-  //   }
-  //   setInit(true);
-  //   });
-  //   }, []);  
-  useEffect(()=>{
-    setIsLoggedIn(true) //임시로 전부 로그인 처리
-  },[])
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+    setIsLoggedIn(true);
+    const uid = user.uid;
+    console.log(uid)
+    } else {
+    setIsLoggedIn(false);
+    }
+    setInit(true);
+    });
+    }, []);  
+  // useEffect(()=>{
+  //   setIsLoggedIn(true) //임시로 전부 로그인 처리
+  // },[])
   
 
   return (

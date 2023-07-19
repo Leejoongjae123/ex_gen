@@ -7,9 +7,11 @@ import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} 
 import { getDatabase, ref, onValue,get,child} from "firebase/database";
 import {dbService, database,authService} from '../firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import banner1 from '../pictures/banner1.jpg';
+import BarChartComp from './barchart'
+import test from './test'
+import CardLayout from './cardLayout';
 
 const { Header, Content, Footer } = Layout;
 
@@ -28,6 +30,7 @@ const Home = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const [visitors, setVisitors] = useState([0,0,0,0,0]);
+  const [isVisitors, setIsVisitors] = useState(false);
   const [articles,setArticles]=useState([]);
   const [isLoading,setIsLoading]=useState(false);
   const [page,setPage]=useState(1);
@@ -60,6 +63,7 @@ const Home = () => {
       if (snapshot.exists()) {
         let data=snapshot.val()
         setVisitors(data)
+        setIsVisitors(true)
       } else {
         console.log("No data available");
       }
@@ -349,28 +353,11 @@ const Home = () => {
       
 
 
-      <Content className="site-layout" style={{ padding: '3%',height:"100%"}}>
+      <Content className="site-layout" style={{ paddingTop: '3%',height:"100%"}}>
         <Space style={{display:"flex",flexDirection:"column"}}>
-              <h7 style={{color:"#000000"}}>방문자수</h7>
-              <BarChart
-              style={{color:"black"}} 
-                    width={400}
-                    height={100}
-                    data={visitors}
-                    fontSize="100%"
-                    margin={{
-                      top: 20,
-                      right: 20,
-                      left: 20,
-                      bottom: 20
-                    }}
-                    padding={{
-
-                    }}
-                  >
-                    <XAxis dataKey="name" style={{color:"black",fill:"black"}} />
-                    <Bar dataKey="visitors" fill="#0d6efd" label={{position:"top",fill:"black"}}/>
-                </BarChart>
+          
+          {isVisitors ? <BarChartComp visitors={visitors}></BarChartComp> : <Space style={{width:"100vw",height:"20vh",justifyContent:"center"}} size={'middle'}><Spin size="large" /></Space>}
+              
           </Space>
           <div style={{minHeight: 500, background: colorBgContainer,textAlign:'center',justifyContent:'center',alignItems:'center',backgroundColor:"#eee"}}>
             <Space direction='horizontal'>
@@ -472,7 +459,7 @@ const Home = () => {
           
             
           
-          
+              
             <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
               {
                 buttonNames.map((elem,index)=>{
@@ -547,57 +534,8 @@ const Home = () => {
               ]}
             />
           </Space>
+          {isLoading ? <CardLayout isLoading={isLoading} articles={articles}></CardLayout> : <Space style={{width:"100vw",height:"20vh",justifyContent:"center"}} size={'middle'}><Spin size="large" /></Space>}
           
-          <Space direction="vertical" size="middle" style={{ display: 'flex',justifyContent:'center','alignItems':'center' }}>
-            <Row gutter={16}>
-              {
-                articles.map((elem,index)=>{
-                  
-                  let partition=articles[index]['title'].indexOf(']');
-                  let titleFront=articles[index]['title'].slice(0,partition+1);
-                  let titleRr=articles[index]['title'].slice(partition+1,partition.length);
-                  
-                  return(
-                  <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%",alignItems:'center'}}>
-                    <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
-                    <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
-                        {isLoading
-                        ?
-                        <a target='_blank' href={elem['url']}><Image width={100} height={100} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'contain',borderRadius:"100%"}}/></a>
-                        :
-                        <Spin tip="Loading" size="large"></Spin>
-                        }
-                        {/* <Image  width={200} height={200} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/> */}
-                        {isLoading&&
-                        <>
-                          <Space style={{display:"flex",flexDirection:"column"}}>
-                            <Space style={{flex:"1fr"}}>
-                              <p style={{display:"block", marginTop:"30%"}}>{titleFront}</p>
-                            </Space>
-                            <Space style={{width:"1fr"}}>
-                              <p>{titleRr}</p>
-                            </Space>
-                            
-                          </Space>
-                        
-                        </>
-                        }       
-                      {/* <p>{isLoading?<Spin tip="Loading" size="large"></Spin>:<div>Bye</div>}</p> */}
-                      <Space style={{display:"flex",justifyContent:"center"}}>
-                        <Badge count={isLoading ? `지원 ${elem['applyCount']}` : 0} showZero color='#faad14' style={{width:"100%",fontSize:"1rem"}} />
-                        <Badge count={isLoading ? `모집 ${elem['demandCount']}` : 0} style={{width:"100%",fontSize:"1rem"}}/>
-                      </Space>
-                      
-                    </Card>
-                    </Badge.Ribbon>
-                    
-                  </Col>
-                  )
-                  
-                })
-              }
-            </Row>
-          </Space>
           
           </div>
 

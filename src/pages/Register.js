@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 import logo2 from '../pictures/logo1.png';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword,getAuth } from 'firebase/auth';
-
+import { getDatabase, ref, onValue,get,child} from "firebase/database";
 
 function Register() {
     
@@ -17,6 +17,10 @@ function Register() {
     const [password,setPassword]=useState('')
     const [error,setError]=useState('')
     const [isComplete,setIsComplete]=useState(false)
+    const [regiToken,setRegiToken]=useState("")
+    const [isAvailable,setIsAvailable]=useState(true)
+    const [inputToken,setInputToken]=useState("")
+    
     const onChange = (event) => {
         const {
           target: { name, value }
@@ -25,14 +29,36 @@ function Register() {
           setEmail(value)
         } else if (name === 'password') {
           setPassword(value)
+        } else if(name==='token'){
+          console.log(inputToken)
+          setInputToken(value)
         }
+
       }  
     
     const navigate=useNavigate()
 
-    // const handleRegisterClick = () => {
-    //     navigate('/')
-    // };
+    const getRegiToken=async ()=>{  
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, 'regiToken')).then((snapshot) => {
+        if (snapshot.exists()) {
+          let data=snapshot.val()
+          setRegiToken(data)
+          
+        } else {
+          console.log("No Token Data");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+    
+    useEffect(()=>{
+      getRegiToken()
+    },[])
+
+    console.log(regiToken)
+
     const auth=getAuth()
     const onSubmit = async (event)=>{
         try{
@@ -52,6 +78,19 @@ function Register() {
         navigate("/")
     }
 
+    const onCheckToken=()=>{
+      try{
+        console.log(inputToken,"/",regiToken)
+        if (inputToken===regiToken){
+          console.log("성공!")
+          setIsAvailable(false)
+          
+        }
+      }catch(error){
+        console.log(error)
+      }
+    }
+
 
   return (
     <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center", marginTop:"25vh"}}>
@@ -63,8 +102,11 @@ function Register() {
             <Input name='email' value={email} onChange={onChange} required size="default size" placeholder="아이디를 입력하세요" prefix={<UserOutlined />} />
             <Input.Password name="password" value={password} onChange={onChange} required placeholder="비밀번호를 입력하세요" />
             
-            <Input placeholder="토큰을 입력하세요" />
-            <Button onClick={onSubmit} type="primary" block>
+            <Input placeholder="토큰을 입력하세요" name="token" onChange={onChange}/>
+            <Button onClick={onCheckToken} type="primary" disabled={!isAvailable} block>
+            토큰확인
+            </Button>
+            <Button onClick={onSubmit} disabled={isAvailable} type="primary" block>
             회원가입
             </Button>
             {
