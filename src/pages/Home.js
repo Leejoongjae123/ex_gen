@@ -3,8 +3,8 @@ import logo2 from '../pictures/logo2.png';
 import { Card, Col, Row,Image,Input,Button, Space, Spin,Alert,Select,Badge,Dropdown, message,Carousel,Pagination,Layout,theme } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useEffect,useState } from 'react';
-import {addDoc,getDoc,collection, doc, getDocs,query,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
-import { getDatabase, ref, onValue,get,child} from "firebase/database";
+import {addDoc,getDoc,collection, doc, getDocs,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
+import { getDatabase, ref, onValue,get,child,limitToFirst,query} from "firebase/database";
 import {dbService, database,authService} from '../firebase';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -39,12 +39,32 @@ const Home = () => {
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
   const [source,setSource]=useState("전체")
+  const [recentData,setRecentData]=useState([])
   
-  const getArticles=async ()=>{  
-    const dbRef = ref(getDatabase());
-    get(child(dbRef, 'data')).then((snapshot) => {
+  // const getArticles=async ()=>{  
+  //   const dbRef = ref(getDatabase());
+  //   get(child(dbRef, 'data')).then((snapshot) => {
+  //     if (snapshot.exists()) {
+  //       let data=snapshot.val().slice((page-1)*20,(page)*20)
+  //       let originData=snapshot.val()
+        
+  //       setArticles(data)
+  //       setOriginArticles(originData)
+  //       setIsLoading(true)
+  //     } else {
+  //       console.log("No data available");
+  //     }
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
+  // }
+
+    const getArticles=async ()=>{  
+    const db = getDatabase();
+    const starCountRef = query(ref(db, 'data'),limitToFirst(20));
+    onValue(starCountRef, (snapshot) => {
       if (snapshot.exists()) {
-        let data=snapshot.val().slice((page-1)*20,(page)*20)
+        let data=snapshot.val()
         let originData=snapshot.val()
         setArticles(data)
         setOriginArticles(originData)
@@ -52,10 +72,31 @@ const Home = () => {
       } else {
         console.log("No data available");
       }
-    }).catch((error) => {
-      console.error(error);
+      
+
     });
   }
+  const getOriginArticles=async ()=>{  
+    const db = getDatabase();
+    const starCountRef = query(ref(db, 'data'));
+    onValue(starCountRef, (snapshot) => {
+      if (snapshot.exists()) {
+        let data=snapshot.val()
+        let originData=snapshot.val()
+        setOriginArticles(originData)
+      } else {
+        console.log("No data available");
+      }
+
+    });
+  }
+
+
+
+  console.log('originArticles:',originArticles)
+  console.log('recentData:',recentData)
+
+
 
   const getVisitors=async ()=>{  
     const dbRef = ref(getDatabase());
@@ -79,6 +120,7 @@ const Home = () => {
     getArticles();
     getVisitors();
   },[])
+
 
   console.log(visitors)
   // useEffect(()=>{

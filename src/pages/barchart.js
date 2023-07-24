@@ -5,7 +5,7 @@ const BarChartComp = ({ visitors }) => {
     console.log(visitors)
     return (
     <Space style={{display:"flex",flexDirection:"column"}}>
-        <h7 style={{color:"#000000"}}>방문자수</h7>
+        <h5 style={{color:"#000000"}}>방문자수</h5>
             <BarChart
             style={{color:"black"}} 
                     width={400}
