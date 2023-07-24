@@ -41,23 +41,21 @@ const Home = () => {
   const [source,setSource]=useState("전체")
   const [recentData,setRecentData]=useState([])
   
-  // const getArticles=async ()=>{  
-  //   const dbRef = ref(getDatabase());
-  //   get(child(dbRef, 'data')).then((snapshot) => {
-  //     if (snapshot.exists()) {
-  //       let data=snapshot.val().slice((page-1)*20,(page)*20)
-  //       let originData=snapshot.val()
-        
-  //       setArticles(data)
-  //       setOriginArticles(originData)
-  //       setIsLoading(true)
-  //     } else {
-  //       console.log("No data available");
-  //     }
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
+  const getOriginArticles=async ()=>{  
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, 'data')).then((snapshot) => {
+      if (snapshot.exists()) {
+        let data=snapshot.val().slice((page-1)*20,(page)*20)
+        let originData=snapshot.val()
+        setOriginArticles(originData)
+        setIsLoading(true)
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
     const getArticles=async ()=>{  
     const db = getDatabase();
@@ -76,20 +74,7 @@ const Home = () => {
 
     });
   }
-  const getOriginArticles=async ()=>{  
-    const db = getDatabase();
-    const starCountRef = query(ref(db, 'data'));
-    onValue(starCountRef, (snapshot) => {
-      if (snapshot.exists()) {
-        let data=snapshot.val()
-        let originData=snapshot.val()
-        setOriginArticles(originData)
-      } else {
-        console.log("No data available");
-      }
 
-    });
-  }
 
 
 
@@ -117,7 +102,9 @@ const Home = () => {
 
 
   useEffect(()=>{
-    getArticles();
+    getArticles().then(()=>{
+      getOriginArticles();
+    });
     getVisitors();
   },[])
 
