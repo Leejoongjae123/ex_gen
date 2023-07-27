@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'
+import Test from './pages/test'
 import {authService} from './firebase'
 import {getAuth,onAuthStateChanged} from 'firebase/auth'
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />  
+            <Route path='/test' element={<Test/>}/>
           </>
           )
           }

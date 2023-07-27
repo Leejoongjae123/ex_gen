@@ -70,8 +70,6 @@ const Home = () => {
       } else {
         console.log("No data available");
       }
-      
-
     });
   }
 
@@ -97,9 +95,6 @@ const Home = () => {
       console.error(error);
     });
   }
-
-
-
 
   useEffect(()=>{
     getArticles().then(()=>{
