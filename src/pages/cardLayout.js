@@ -18,7 +18,7 @@ const CardLayout = ({ articles,isLoading }) => {
                     <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                         {isLoading
                         ?
-                        <a target='_blank' href={elem['url']}><Image width={200} height={200} preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
+                        <a target='_blank' href={elem['url']}><Image  preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
                         :
                         <Spin tip="Loading" size="large"></Spin>
                         }
