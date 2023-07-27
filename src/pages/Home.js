@@ -45,7 +45,7 @@ const Home = () => {
     const dbRef = ref(getDatabase());
     get(child(dbRef, 'data')).then((snapshot) => {
       if (snapshot.exists()) {
-        let data=snapshot.val().slice((page-1)*20,(page)*20)
+
         let originData=snapshot.val()
         setOriginArticles(originData)
         setIsLoading(true)
@@ -59,7 +59,7 @@ const Home = () => {
 
     const getArticles=async ()=>{  
     const db = getDatabase();
-    const starCountRef = query(ref(db, 'data'),limitToFirst(20));
+    const starCountRef = query(ref(db, 'data'),limitToFirst(10));
     onValue(starCountRef, (snapshot) => {
       if (snapshot.exists()) {
         let data=snapshot.val()
@@ -117,13 +117,13 @@ const Home = () => {
   useEffect(()=>{ 
     if (keyword.length>=1){
       console.log("CASE1")
-      setArticles(changedData.slice((page-1)*20,(page)*20))
+      setArticles(changedData.slice((page-1)*10,(page)*10))
     } else{
       console.log("CASE2")
       if(changedData.length===0){
-        setArticles(originArticles.slice((page-1)*20,(page)*20))
+        setArticles(originArticles.slice((page-1)*10,(page)*10))
       } else{
-        setArticles(changedData.slice((page-1)*20,(page)*20))
+        setArticles(changedData.slice((page-1)*10,(page)*10))
       }
     }
   },[page])
@@ -153,7 +153,7 @@ const Home = () => {
     console.log("filteredData:",filteredData)
     setChangedData(filteredData)
 
-    const partialFilteredData=filteredData.slice((page-1)*20,(page)*20)
+    const partialFilteredData=filteredData.slice((page-1)*10,(page)*10)
     console.log("filteredData:",filteredData)
 
     setArticles(partialFilteredData)
@@ -171,7 +171,7 @@ const Home = () => {
         if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     } else{
       let sortedData=originArticles.sort((a, b) => {
@@ -180,7 +180,7 @@ const Home = () => {
         if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     }
 
@@ -194,7 +194,7 @@ const Home = () => {
         if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     } else{
       let sortedData = originArticles.sort((a, b) => {
@@ -203,7 +203,7 @@ const Home = () => {
         if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     } 
   }
@@ -216,7 +216,7 @@ const Home = () => {
           if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
           return 0; // a.name과 b.name이 같으면 순서 유지
         });
-        let newData=sortedData.slice((page-1)*20,(page)*20)
+        let newData=sortedData.slice((page-1)*10,(page)*10)
         setArticles(newData)
     }else{
       let sortedData = originArticles.sort((a, b) => {
@@ -225,7 +225,7 @@ const Home = () => {
           if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
           return 0; // a.name과 b.name이 같으면 순서 유지
         });
-        let newData=sortedData.slice((page-1)*20,(page)*20)
+        let newData=sortedData.slice((page-1)*10,(page)*10)
         setArticles(newData)
     }
 
@@ -239,7 +239,7 @@ const Home = () => {
         if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     } else{
       let sortedData = originArticles.sort((a, b) => {
@@ -248,7 +248,7 @@ const Home = () => {
         if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     }
 
@@ -263,7 +263,7 @@ const Home = () => {
         if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
       
     } else{
@@ -273,7 +273,7 @@ const Home = () => {
         if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     }
 
@@ -288,7 +288,7 @@ const Home = () => {
         if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     } else{
       let sortedData = originArticles.sort((a, b) => {
@@ -297,7 +297,7 @@ const Home = () => {
         if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     }
 
@@ -311,7 +311,7 @@ const Home = () => {
         if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
       
     } else{
@@ -321,7 +321,7 @@ const Home = () => {
         if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
         return 0; // a.name과 b.name이 같으면 순서 유지
       });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
+      let newData=sortedData.slice((page-1)*10,(page)*10)
       setArticles(newData)
     }
   }
@@ -572,7 +572,7 @@ const Home = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={changedData.length!=0?parseInt(changedData.length/2):parseInt(originArticles.length/2)}  showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={changedData.length!=0?parseInt(changedData.length):parseInt(originArticles.length)}  showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
