@@ -46,11 +46,7 @@ export default function Test() {
     const db=getDatabase()
     const recentDataRef = query(ref(db, 'data'), limitToLast(100))
     onValue(recentDataRef, (snapshot) => {
-      if(snapshot.exists()){
-        setOriginArticles(snapshot.val())
-      }else{
-        console.log('no data')
-      }
+      
       // ...
     }, {
       onlyOnce: true

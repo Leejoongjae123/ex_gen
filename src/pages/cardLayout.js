@@ -13,12 +13,12 @@ const CardLayout = ({ articles,isLoading }) => {
                   let titleRr=articles[index]['title'].slice(partition+1,partition.length);
                   
                   return(
-                  <Col key={index} xs={{span: 12}} lg={{span: 12}} style={{padding:"1%",alignItems:'center'}}>
+                  <Col key={index} xs={{span: 12}} lg={{span: 6}} style={{padding:"1%",alignItems:'center'}}>
                     <Badge.Ribbon text={`D-${elem['dday']}`} count={10} size="default" style={{}}>
                     <Card title={isLoading&&articles[index]['platform']} bordered={false} style={{padding:"0",border:"1px solid #eee",overflow:'hidden',width:"100%",height:"100%"}} headStyle={{fontSize:"1.5rem"}}>  
                         {isLoading
                         ?
-                        <a target='_blank' href={elem['url']}><Image  preview={false} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
+                        <a target='_blank' href={elem['url']}><Image  preview={false} width={100} height={100} src={`https://storage.googleapis.com/experience-gen.appspot.com/${articles[index]['myImage']}.png`} style={{objectFit:'cover',borderRadius:"100%"}}/></a>
                         :
                         <Spin tip="Loading" size="large"></Spin>
                         }
