@@ -2,8 +2,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    createProxyMiddleware('/378226211:runReport', {
-      target:'https://content-analyticsdata.googleapis.com/v1beta/properties',
+    createProxyMiddleware('/getProducts', {
+      target:'http://43.201.149.234/',
       changeOrigin: true,
     }),
   );

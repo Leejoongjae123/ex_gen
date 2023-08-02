@@ -2,7 +2,7 @@ import React,{PureComponent} from 'react';
 import logo2 from '../pictures/logo2.png';
 import { Card, Col, Row,Image,Input,Button, Space, Spin,Alert,Select,Badge,Dropdown, message,Carousel,Pagination,Layout,theme } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useCallback } from 'react';
 import {addDoc,getDoc,collection, doc, getDocs,onSnapshot,orderBy,setDoc} from 'firebase/firestore';
 import { getDatabase, ref, onValue,get,child,limitToFirst,query} from "firebase/database";
 import {dbService, database,authService} from '../firebase';
@@ -12,6 +12,8 @@ import banner1 from '../pictures/banner1.jpg';
 import BarChartComp from './barchart'
 import test from './test'
 import CardLayout from './cardLayout';
+import axios from 'axios';
+import { debounce } from 'lodash';
 
 const { Header, Content, Footer } = Layout;
 
@@ -38,48 +40,33 @@ const Home = () => {
   const [originArticles,setOriginArticles]=useState([])
   const [changedData,setChangedData]=useState([])
   const [filterStatus,setFilterStatus]=useState("이름순")
-  const [source,setSource]=useState("전체")
+  const [source,setSource]=useState("")
   const [recentData,setRecentData]=useState([])
+  const [sortBy,setSortBy]=useState("")
+  const [sortOrder,setSortOrder]=useState("")
   
-  const getOriginArticles=async ()=>{  
-    const dbRef = ref(getDatabase());
-    get(child(dbRef, 'data')).then((snapshot) => {
-      if (snapshot.exists()) {
-
-        let originData=snapshot.val()
-        setOriginArticles(originData)
-        setIsLoading(true)
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-
-    const getArticles=async ()=>{  
-    const db = getDatabase();
-    const starCountRef = query(ref(db, 'data'),limitToFirst(20));
-    onValue(starCountRef, (snapshot) => {
-      if (snapshot.exists()) {
-        let data=snapshot.val()
-        let originData=snapshot.val()
-        setArticles(data)
-        setOriginArticles(originData)
-        setIsLoading(true)
-      } else {
-        console.log("No data available");
-      }
-    });
-  }
 
 
-
-
-  console.log('originArticles:',originArticles)
-  console.log('recentData:',recentData)
-
-
+  const getArticles = async () => {
+    try {
+      const response = await axios.get('http://43.201.149.234/getProducts',
+      {params: {
+        platform: source,
+        page:page,
+        keyword:keyword,
+        sortby:sortBy,
+        sortorder:sortOrder,
+      }});
+      console.log('response:',response.data)
+      setArticles(response.data)
+      setIsLoading(true)
+    
+      
+    } catch (error) {
+      console.error('Error occurred while fetching data:', error);
+    }
+    
+  };
 
   const getVisitors=async ()=>{  
     const dbRef = ref(getDatabase());
@@ -96,242 +83,50 @@ const Home = () => {
     });
   }
 
+  //검색 조건을 가지고 기사를 다시 가져옴
   useEffect(()=>{
-    getArticles().then(()=>{
-      getOriginArticles()
-    })
+    getArticles();
+  },[page,source,sortOrder,sortBy])
+
+  useEffect(()=>{
+    const debounce = setTimeout(() => {
+      getArticles();
+    }, 200);
+    return () => {
+      clearTimeout(debounce);
+    };
+  },[keyword])
+
+  //방문자를 처음에만 조회
+  useEffect(()=>{
     getVisitors();
   },[])
-
-
-  console.log(visitors)
-  // useEffect(()=>{
-  //   console.log("리렌더링")
-  // },[articles])
-
-  useEffect(()=>{ 
-    if (keyword.length>=1){
-      console.log("CASE1")
-      setArticles(changedData.slice((page-1)*20,(page)*20))
-    } else{
-      console.log("CASE2")
-      if(changedData.length===0){
-        setArticles(originArticles.slice((page-1)*20,(page)*20))
-      } else{
-        setArticles(changedData.slice((page-1)*20,(page)*20))
-      }
-    }
-  },[page])
-
-
   
   const handleInputChange = (event) => {
     setKeyword(event.target.value);
+    
   };
+
+
+
 
   const handleSearch = () => {
-
-    let filteredData = originArticles.filter((elem) => {
-      if (source=="전체"){
-        const { title } = elem;
-        // console.log(title,platform)
-        return title.includes(keyword);
-      } else{
-        // console.log("keywordlength:",keyword.length)
-          const { title, platform } = elem;
-          // console.log(title,platform)
-          return title.includes(keyword) && platform.includes(source);
-          // return platform.includes(source);
-      }
-      
-    });
-    console.log("filteredData:",filteredData)
-    setChangedData(filteredData)
-
-    const partialFilteredData=filteredData.slice((page-1)*20,(page)*20)
-    console.log("filteredData:",filteredData)
-
-    setArticles(partialFilteredData)
-    if (keyword.length==0 && source=="전체"){
-      getArticles()
-    }
-  };
-
-  const sortedData = ()=>{
-    console.log(changedData)
-    if (keyword.length>=1 || source!="전체"){
-      let sortedData=changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    } else{
-      let sortedData=originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (a.applyCount < b.applyCount) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (a.applyCount > b.applyCount) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    }
-
-  }
-  
-  const sortApplyUp=()=>{
-    if(keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    } else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    } 
-  }
-
-  const sortApplyDown=()=>{
-    if(keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-          if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-          if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-          return 0; // a.name과 b.name이 같으면 순서 유지
-        });
-        let newData=sortedData.slice((page-1)*20,(page)*20)
-        setArticles(newData)
-    }else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-          if (parseInt(a['applyCount']) > parseInt(b['applyCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-          if (parseInt(a['applyCount']) < parseInt(b['applyCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-          return 0; // a.name과 b.name이 같으면 순서 유지
-        });
-        let newData=sortedData.slice((page-1)*20,(page)*20)
-        setArticles(newData)
-    }
-
-  }
-
-  const sortDemandUp=()=>{
-    if (keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    } else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    }
-
-
-  }
-
-  const sortDemandDown=()=>{
-    if (keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-      
-    } else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['demandCount']) > parseInt(b['demandCount'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['demandCount']) < parseInt(b['demandCount'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    }
-
-
-  }
-
-  const sortDdayUp=()=>{
-    if (keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    } else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['dday']) < parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['dday']) > parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    }
-
-  }
-
-  const sortDdayDown=()=>{
-    if (keyword.length>=1 || source!="전체"){
-      let sortedData = changedData.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-      
-    } else{
-      let sortedData = originArticles.sort((a, b) => {
-        // 기준이 되는 속성 값을 비교하여 정렬
-        if (parseInt(a['dday']) > parseInt(b['dday'])) return -1; // a.name이 b.name보다 작으면 a를 앞으로 정렬
-        if (parseInt(a['dday']) < parseInt(b['dday'])) return 1; // a.name이 b.name보다 크면 b를 앞으로 정렬
-        return 0; // a.name과 b.name이 같으면 순서 유지
-      });
-      let newData=sortedData.slice((page-1)*20,(page)*20)
-      setArticles(newData)
-    }
-  }
-
-  const sortTitle=()=>{
     getArticles();
-  }
-  
-  const handleChangeRegion = (value) => {
-    // console.log(`selected ${value}`);
   };
+
+
+  
+
+  console.log("keyword:",keyword)
+  
   
   const handleChangePlatform = (value) => {
     // console.log(`selected ${value}`);
-    setSource(value)
+    if (value==="전체"){
+      setSource("")
+    } else{
+      setSource(value)
+    }
   };
 
   const handleClick=(e)=>{
@@ -509,21 +304,26 @@ const Home = () => {
               }}
               onChange={(e)=>{
                 if(e==="지원 적은순"){
-                  sortApplyUp();
+                  setSortBy('applyCount')
+                  setSortOrder('asc')
                 }else if(e==="지원 많은순"){
-                  sortApplyDown();
+                  setSortBy('applyCount')
+                  setSortOrder('dsc')
                 }else if(e==="모집 적은순"){
-                  sortDemandUp();
+                  setSortBy('demandCount')
+                  setSortOrder('asc')
                 }else if(e==="모집 많은순"){
-                  sortDemandDown();
+                  setSortBy('demandCount')
+                  setSortOrder('dsc')
                 }else if(e==="기한 적은순"){
-                  console.log("기한적은순정렬")
-                  sortDdayUp();
+                  setSortBy('dday')
+                  setSortOrder('asc')
                 }else if(e==="기한 많은순"){
-                  console.log("기한많은순정렬")
-                  sortDdayDown();
+                  setSortBy('dday')
+                  setSortOrder('dsc')
                 }else{
-                  sortTitle();
+                  setSortBy('')
+                  setSortOrder('')
                 }
               }}
               options={[
@@ -567,7 +367,7 @@ const Home = () => {
 
       </Content>
       <Space direction='horizontal' size='middle' style={{display:'flex',justifyContent:'center',margin:"1%"}}> 
-        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={changedData.length!=0?parseInt(changedData.length/2):parseInt(originArticles.length/2)}  showSizeChanger={false}/>
+        <Pagination style={{ textAlign: 'center' }} onChange={(e)=>{setPage(e)}} current={page} defaultCurrent={1} total={9999}  showSizeChanger={false}/>
       </Space>
       
       <Footer style={{ textAlign: 'center' }}> 체험단시대 ©2023 Created by AURAWORKS</Footer>
