@@ -49,7 +49,7 @@ const Home = () => {
 
   const getArticles = async () => {
     try {
-      const response = await axios.get('//43.201.149.234/getProducts',
+      const response = await axios.get('http://43.201.149.234/getProducts',
       {params: {
         platform: source,
         page:page,
