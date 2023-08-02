@@ -3,7 +3,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/getProducts', {
-      target:'http://43.201.149.234/',
+      target:'//43.201.149.234/',
       changeOrigin: true,
     }),
   );
