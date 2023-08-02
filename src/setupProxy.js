@@ -3,7 +3,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/getProducts', {
-      target:'http://43.201.149.234/',
+      target:'https://vlisirmsp6lodfmlnaagbsef4a0yidnn.lambda-url.ap-northeast-2.on.aws/',
       changeOrigin: true,
     }),
   );
