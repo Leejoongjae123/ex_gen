@@ -279,7 +279,7 @@ const Home = () => {
             
           
               
-            <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
+            {/* <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
               {
                 buttonNames.map((elem,index)=>{
                   
@@ -289,7 +289,7 @@ const Home = () => {
                 })
 
               }
-            </Space>
+            </Space> */}
           
           
 
