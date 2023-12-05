@@ -75,7 +75,7 @@ export default function ExternalLink() {
   ]
 
   return (
-    <div className="px-[5%] grid grid-cols-3 lg:grid-cols-8 gap-2 justify-center text-xs md:text-lg ">
+    <div className="px-[5%] mt-10 grid grid-cols-3 lg:grid-cols-8 gap-2 justify-center text-xs md:text-lg ">
       {
         externalLinks.map( (elem)=>{
           return(
