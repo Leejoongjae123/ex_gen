@@ -39,7 +39,7 @@ export default function ExternalLink() {
     },
     {
       'name':'오마이블로그',
-      'url':'https://kormedia.co.k',
+      'url':'https://kormedia.co.kr',
       'imageUrl':'/오마이블로그.png'
     },
     {
@@ -59,7 +59,7 @@ export default function ExternalLink() {
     },
     {
       'name':'체험뷰',
-      'url':'https://chvu.co.kr/campaig',
+      'url':'https://chvu.co.kr',
       'imageUrl':'/체험뷰.png'
     },
     {
