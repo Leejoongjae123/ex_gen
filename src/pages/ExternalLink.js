@@ -75,13 +75,13 @@ export default function ExternalLink() {
   ]
 
   return (
-    <div className="px-[5%] mt-10 grid grid-cols-3 lg:grid-cols-8 gap-2 justify-center text-xs md:text-lg ">
+    <div className="px-[5%] mt-10 grid grid-cols-3 lg:grid-cols-8 gap-x-2 justify-center text-xs md:text-lg ">
       {
         externalLinks.map( (elem)=>{
           return(
             <div
             type="button"
-            class="hover:bg-gray-200 font-medium rounded-lg text-center flex items-center px-2 py-2 justify-center"
+            className="hover:bg-gray-200 font-medium rounded-lg text-center flex items-center px-2 py-2 justify-center"
           >
             <a
               className="flex items-center no-underline"
@@ -89,7 +89,7 @@ export default function ExternalLink() {
               href={elem.url}
             >
               <div className="flex-col justify-center">
-                <Image preview={false} src={elem.imageUrl}></Image>
+                <Image height={30}preview={false} src={elem.imageUrl}></Image>
                 <span className="block ml-3 font-bold text-gray-600 ">{elem.name}</span>
               </div>
             </a>
