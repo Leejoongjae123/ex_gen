@@ -386,7 +386,7 @@ const Home = () => {
               onChange={handleInputChange}
               style={{ width: "100%", minWidth: "100%", textAlign: "center" }}
             />
-            <Button
+            {/* <Button
               type="primary"
               icon={<SearchOutlined />}
               onClick={() => {
@@ -395,7 +395,8 @@ const Home = () => {
               }}
             >
               검색
-            </Button>
+            </Button> */}
+            <button onClick={()=>{handleSearch();setPage(1);}} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg w-full text-sm px-3 py-2.5 my-2 ">검색</button>
           </Space>
 
           {/* <Space wrap style={{padding:3, display:"flex",justifyContent:"center"}}>
