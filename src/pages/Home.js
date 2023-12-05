@@ -233,7 +233,7 @@ const Home = () => {
 
         {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
         <Button onClick={onLogOutClick} style={{ margin: "1%" }}>
-          로그아웃
+          <p className="text-white">로그아웃</p>
         </Button>
       </Header>
 

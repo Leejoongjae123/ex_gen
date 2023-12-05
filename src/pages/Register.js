@@ -103,9 +103,10 @@ function Register() {
             <Input.Password name="password" value={password} onChange={onChange} required placeholder="비밀번호를 입력하세요" />
             
             <Input placeholder="토큰을 입력하세요" name="token" onChange={onChange}/>
-            <Button onClick={onCheckToken} type="primary" disabled={!isAvailable} block>
+            {/* <Button onClick={onCheckToken} type="primary" disabled={!isAvailable} block>
             토큰확인
-            </Button>
+            </Button> */}
+            <button onClick={onCheckToken} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg w-full text-sm px-3 py-2.5 ">토큰확인</button>
             <Button onClick={onSubmit} disabled={isAvailable} type="primary" block>
             회원가입
             </Button>

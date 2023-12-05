@@ -61,12 +61,16 @@ function Login() {
         <Space style={{width:"30vw"}}direction='vertical'>        
             <Input name='email' value={email} onChange={onChange} required size="default size" placeholder="아이디를 입력하세요" prefix={<UserOutlined />} />
             <Input.Password name="password" value={password} onChange={onChange} required placeholder="비밀번호를 입력하세요" />
-            <Button onClick={onSubmit} type="primary" block>
+            
+            <button onClick={onSubmit} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg w-full text-sm px-3 py-2.5 my-2 ">로그인</button>
+
+            {/* <Button onClick={onSubmit} type="primary" block>
             로그인
-            </Button>
-            <Button onClick={handleRegisterClick} type="dashed" block>
+            </Button> */}
+            <button onClick={handleRegisterClick} type="button" class="text-black bg-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg w-full text-sm px-3 py-2.5">회원가입</button>
+            {/* <Button onClick={handleRegisterClick} type="dashed" block>
             회원가입
-            </Button>
+            </Button> */}
             {error&&<Alert message={JSON.stringify(error.code)} type="error" />}
             
         </Space>               
