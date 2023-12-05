@@ -83,7 +83,8 @@ const Home = () => {
   const getArticles = async () => {
     try {
       const response = await axios.get('https://f36dcjopejicrmfh3tq2bavmbe0ljydb.lambda-url.ap-northeast-2.on.aws/getProducts',
-      // const response = await axios.get("http://127.0.0.1:8000/getProducts", {
+      // const response = await axios.get("http://127.0.0.1:8000/getProducts", 
+      {
         params: {
           platform: source,
           page: page,
