@@ -77,8 +77,8 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState("이름순");
   const [source, setSource] = useState("");
   const [recentData, setRecentData] = useState([]);
-  const [sortBy, setSortBy] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortBy, setSortBy] = useState("dday");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const getArticles = async () => {
     try {
@@ -416,7 +416,7 @@ const Home = () => {
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Select
-              defaultValue="기본"
+              defaultValue="기한 적은순"
               style={{
                 width: 120,
                 margin: "10% 0 10% 0",
@@ -446,25 +446,25 @@ const Home = () => {
                 }
               }}
               options={[
+                // {
+                //   value: "기본",
+                //   label: "기본",
+                // },
                 {
-                  value: "기본",
-                  label: "기본",
+                  value: "기한 적은순",
+                  label: "기한 적은순",
                 },
                 {
                   value: "기한 많은순",
                   label: "기한 많은순",
                 },
                 {
-                  value: "기한 적은순",
-                  label: "기한 적은순",
+                  value: "지원 적은순",
+                  label: "지원 적은순",
                 },
                 {
                   value: "지원 많은순",
                   label: "지원 많은순",
-                },
-                {
-                  value: "지원 적은순",
-                  label: "지원 적은순",
                 },
                 {
                   value: "모집 많은순",
