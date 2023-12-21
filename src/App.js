@@ -33,7 +33,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {!isLoggedIn?(
+          {/* {!isLoggedIn?(
             <>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />  
@@ -45,8 +45,12 @@ function App() {
             <Route path='/test' element={<Test/>}/>
           </>
           )
-          }
-          
+          } */}
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />  
+            <Route path='/test' element={<Test/>}/>
+          </>
         </Routes>
       </div>
     </BrowserRouter>

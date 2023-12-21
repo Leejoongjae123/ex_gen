@@ -222,19 +222,20 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        <div className="logo_container">
-          <Image
+        <div style={{width:"50%"}} className="logo_container">
+          {/* <Image
             style={{ display: "block" }}
             src={logo2}
             preview={false}
-          ></Image>
+          ></Image> */}
+          <p style={{color:'#eee',fontSize:'32px',marginLeft:'5%'}}>체험단찾아줘</p>
         </div>
         {/* <Image  preview={false} width={300} height={50} src={logo2} style={{objectFit:'cover',position:'absolute',left:"0",marginTop:"2%"}}/> */}
 
         {/* <div style={{color:"#eee",fontSize:'2rem',width:"50%",padding:"0 2% 0 2%"}}>체험단시대</div> */}
-        <Button onClick={onLogOutClick} style={{ margin: "1%" }}>
+        {/* <Button onClick={onLogOutClick} style={{ margin: "1%" }}>
           <p className="text-white">로그아웃</p>
-        </Button>
+        </Button> */}
       </Header>
 
       <Carousel autoplay>
@@ -512,7 +513,7 @@ const Home = () => {
 
       <Footer style={{ textAlign: "center" }}>
         {" "}
-        체험단시대 ©2023 Created by AURAWORKS
+        체험단찾아줘 ©2023 Created by AURAWORKS
       </Footer>
     </Layout>
   );
